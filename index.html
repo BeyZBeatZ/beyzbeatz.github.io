@@ -47,7 +47,6 @@
             display: block;
             font-size: 8rem;
             transform-style: preserve-3d;
-            animation: flip 1s ease-in-out infinite;
         }
 
         /* Animation für das Umklappen */
@@ -61,6 +60,10 @@
             100% {
                 transform: rotateX(0);
             }
+        }
+
+        .flipping {
+            animation: flip 0.5s ease-in-out;
         }
 
         .label {
@@ -113,10 +116,20 @@
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            // Funktion, die für jede Zahl überprüft, ob sich der Wert geändert hat
+            function updateTimeElement(id, newValue) {
+                const element = document.getElementById(id);
+                if (element.textContent !== newValue.toString().padStart(2, '0')) {
+                    element.textContent = newValue.toString().padStart(2, '0');
+                    element.classList.add('flipping');
+                    setTimeout(() => element.classList.remove('flipping'), 500); // Animation entfernen
+                }
+            }
+
+            updateTimeElement('days', days);
+            updateTimeElement('hours', hours);
+            updateTimeElement('minutes', minutes);
+            updateTimeElement('seconds', seconds);
         }
 
         // Update jede Sekunde
