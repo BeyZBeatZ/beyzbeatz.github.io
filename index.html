@@ -14,6 +14,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            color: white;
         }
 
         #video-background {
@@ -28,45 +29,30 @@
 
         #countdown {
             text-align: center;
-            font-size: 3rem;
-            color: white;
+            font-size: 8rem; /* Große Zahlengröße */
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 50px;
             z-index: 1; /* Sicherstellen, dass der Countdown über dem Video liegt */
         }
 
         .time-block {
             display: inline-block;
-            background: rgba(44, 62, 80, 0.8);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-            transform-origin: center;
+            font-weight: bold;
+            color: #f39c12;
+            animation: pulse 1.5s infinite; /* Animation für die Zahlen */
         }
 
         .time-block span {
             display: block;
-            font-size: 3rem;
-            font-weight: bold;
-            color: #f39c12;
+            font-size: 8rem; /* Größere Zahlen */
         }
 
         .label {
-            font-size: 1.2rem;
-            color: #ecf0f1;
+            font-size: 2rem;
             margin-top: 10px;
+            color: #ecf0f1;
             text-transform: uppercase;
-        }
-
-        .time-block:hover {
-            background-color: #2980b9;
-            transform: scale(1.1);
-        }
-
-        .time-block:active {
-            transform: scale(1);
         }
 
         @keyframes pulse {
@@ -83,10 +69,6 @@
                 opacity: 0.8;
             }
         }
-
-        #countdown .time-block {
-            animation: pulse 1.5s infinite;
-        }
     </style>
 </head>
 <body>
@@ -100,26 +82,21 @@
     <div id="countdown">
         <div class="time-block">
             <span id="days">00</span>
-            <div class="label">Tage</div>
         </div>
         <div class="time-block">
             <span id="hours">00</span>
-            <div class="label">Stunden</div>
         </div>
         <div class="time-block">
             <span id="minutes">00</span>
-            <div class="label">Minuten</div>
         </div>
         <div class="time-block">
             <span id="seconds">00</span>
-            <div class="label">Sekunden</div>
         </div>
     </div>
 
     <script>
-        // Ziel-Datum (24 Tage ab heute)
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 24);
+        // Ziel-Datum: 19. Juni 2025, 10:00 Uhr
+        const targetDate = new Date(2025, 5, 19, 10, 0, 0);  // Monat 5 ist Juni (Monate beginnen bei 0)
 
         // Funktion zum Update des Countdowns
         function updateCountdown() {
