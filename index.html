@@ -39,13 +39,28 @@
         .time-block {
             display: inline-block;
             font-weight: bold;
-            color: #f39c12;
-            animation: pulse 1.5s infinite; /* Animation für die Zahlen */
+            color: #003366; /* Dunkelblau */
+            perspective: 1000px; /* Perspektive für 3D-Effekt */
         }
 
         .time-block span {
             display: block;
-            font-size: 8rem; /* Größere Zahlen */
+            font-size: 8rem;
+            transform-style: preserve-3d;
+            animation: flip 1s ease-in-out infinite;
+        }
+
+        /* Animation für das Umklappen */
+        @keyframes flip {
+            0% {
+                transform: rotateX(0);
+            }
+            50% {
+                transform: rotateX(-90deg);
+            }
+            100% {
+                transform: rotateX(0);
+            }
         }
 
         .label {
@@ -53,21 +68,6 @@
             margin-top: 10px;
             color: #ecf0f1;
             text-transform: uppercase;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
         }
     </style>
 </head>
@@ -122,6 +122,11 @@
         // Update jede Sekunde
         setInterval(updateCountdown, 1000);
         updateCountdown();  // Initialer Aufruf
+
+        // Seite alle 10 Minuten neu laden
+        setTimeout(function() {
+            location.reload();
+        }, 600000);  // 600000 Millisekunden = 10 Minuten
     </script>
 
 </body>
