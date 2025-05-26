@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown mit Hintergrundvideo</title>
+    <title>Countdown mit Flip-Clock Effekt</title>
     <style>
         body {
             margin: 0;
@@ -15,6 +15,7 @@
             justify-content: center;
             align-items: center;
             color: white;
+            background-color: #333;
         }
 
         #video-background {
@@ -24,46 +25,69 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -1; /* Damit das Video hinter dem Countdown bleibt */
+            z-index: -1;
         }
 
         #countdown {
-            text-align: center;
-            font-size: 8rem; /* Große Zahlengröße */
             display: flex;
             justify-content: center;
-            gap: 50px;
-            z-index: 1; /* Sicherstellen, dass der Countdown über dem Video liegt */
+            gap: 20px;
         }
 
         .time-block {
-            display: inline-block;
+            width: 100px;
+            height: 120px;
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flip {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .flip div {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            text-align: center;
+            font-size: 6rem;
             font-weight: bold;
-            color: #003366; /* Dunkelblau */
-            perspective: 1000px; /* Perspektive für 3D-Effekt */
+            color: #003366;
+            line-height: 1;
+            transform-origin: 50% 100%;
+            transition: transform 0.5s ease;
         }
 
-        .time-block span {
-            display: block;
-            font-size: 8rem;
-            transform-style: preserve-3d;
+        .flip .top,
+        .flip .bottom {
+            transform: rotateX(0deg);
         }
 
-        /* Animation für das Umklappen */
-        @keyframes flip {
-            0% {
-                transform: rotateX(0);
-            }
-            50% {
-                transform: rotateX(-90deg);
-            }
-            100% {
-                transform: rotateX(0);
-            }
+        .flip.flipping .top {
+            transform: rotateX(-90deg);
         }
 
-        .flipping {
-            animation: flip 0.5s ease-in-out;
+        .flip.flipping .bottom {
+            transform: rotateX(90deg);
+        }
+
+        .flip .bottom {
+            top: 50%;
+            transform: rotateX(90deg);
+        }
+
+        .flip .top {
+            bottom: 50%;
+            transform: rotateX(0deg);
         }
 
         .label {
@@ -78,22 +102,38 @@
 
     <!-- Hintergrund Video -->
     <video id="video-background" autoplay loop muted>
-        <source src="ay-cekim_8B1NoB5w.mp4" type="video/mp4">
+        <source src="ay_yeni.mp4" type="video/mp4">
         Dein Browser unterstützt dieses Videoformat nicht.
     </video>
 
     <div id="countdown">
         <div class="time-block">
-            <span id="days">00</span>
+            <div class="flip" id="days">
+                <div class="top">00</div>
+                <div class="bottom">00</div>
+            </div>
+            <div class="label">Tage</div>
         </div>
         <div class="time-block">
-            <span id="hours">00</span>
+            <div class="flip" id="hours">
+                <div class="top">00</div>
+                <div class="bottom">00</div>
+            </div>
+            <div class="label">Stunden</div>
         </div>
         <div class="time-block">
-            <span id="minutes">00</span>
+            <div class="flip" id="minutes">
+                <div class="top">00</div>
+                <div class="bottom">00</div>
+            </div>
+            <div class="label">Minuten</div>
         </div>
         <div class="time-block">
-            <span id="seconds">00</span>
+            <div class="flip" id="seconds">
+                <div class="top">00</div>
+                <div class="bottom">00</div>
+            </div>
+            <div class="label">Sekunden</div>
         </div>
     </div>
 
@@ -116,13 +156,22 @@
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            // Funktion, die für jede Zahl überprüft, ob sich der Wert geändert hat
+            // Funktion zum Aktualisieren der Zahl mit Flip-Effekt
             function updateTimeElement(id, newValue) {
                 const element = document.getElementById(id);
-                if (element.textContent !== newValue.toString().padStart(2, '0')) {
-                    element.textContent = newValue.toString().padStart(2, '0');
+                const currentTop = element.querySelector('.top');
+                const currentBottom = element.querySelector('.bottom');
+                const newValueStr = newValue.toString().padStart(2, '0');
+
+                // Wenn sich der Wert ändert, animiere den Flip
+                if (currentTop.textContent !== newValueStr) {
+                    currentTop.textContent = newValueStr;
                     element.classList.add('flipping');
-                    setTimeout(() => element.classList.remove('flipping'), 500); // Animation entfernen
+
+                    // Sobald die Animation fertig ist, die Animation zurücksetzen
+                    setTimeout(() => {
+                        element.classList.remove('flipping');
+                    }, 500);
                 }
             }
 
