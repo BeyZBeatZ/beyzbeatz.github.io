@@ -3,18 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown</title>
+    <title>Countdown mit Hintergrundvideo</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #7f8c8d, #2c3e50);
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+        }
+
+        #video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* Damit das Video hinter dem Countdown bleibt */
         }
 
         #countdown {
@@ -24,6 +33,7 @@
             display: flex;
             justify-content: center;
             gap: 30px;
+            z-index: 1; /* Sicherstellen, dass der Countdown über dem Video liegt */
         }
 
         .time-block {
@@ -80,6 +90,12 @@
     </style>
 </head>
 <body>
+
+    <!-- Hintergrund Video -->
+    <video id="video-background" autoplay loop muted>
+        <source src="dein_video.mp4" type="video/mp4">
+        Dein Browser unterstützt dieses Videoformat nicht.
+    </video>
 
     <div id="countdown">
         <div class="time-block">
