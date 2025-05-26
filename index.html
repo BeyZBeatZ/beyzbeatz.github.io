@@ -35,8 +35,8 @@
         }
 
         .time-block {
-            width: 100px;
-            height: 120px;
+            width: 120px;
+            height: 150px;
             perspective: 1000px;
             display: flex;
             justify-content: center;
@@ -102,7 +102,7 @@
 
     <!-- Hintergrund Video -->
     <video id="video-background" autoplay loop muted>
-        <source src="ay_yeni.mp4" type="video/mp4">
+        <source src="dein_video.mp4" type="video/mp4">
         Dein Browser unterstützt dieses Videoformat nicht.
     </video>
 
@@ -165,12 +165,13 @@
 
                 // Wenn sich der Wert ändert, animiere den Flip
                 if (currentTop.textContent !== newValueStr) {
-                    currentTop.textContent = newValueStr;
-                    element.classList.add('flipping');
+                    currentBottom.textContent = newValueStr;  // Neue Zahl in der unteren Hälfte setzen
+                    element.classList.add('flipping');  // Flip-Animation starten
 
-                    // Sobald die Animation fertig ist, die Animation zurücksetzen
+                    // Animation zurücksetzen, nachdem die Animation abgeschlossen ist
                     setTimeout(() => {
-                        element.classList.remove('flipping');
+                        currentTop.textContent = newValueStr;  // Die oberste Zahl wird auf den neuen Wert gesetzt
+                        element.classList.remove('flipping');  // Flip zurücksetzen
                     }, 500);
                 }
             }
