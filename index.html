@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown mit Flip-Clock Effekt</title>
+    <title>Countdown mit Flip-Clock Effekt und Text</title>
     <style>
         body {
             margin: 0;
@@ -13,7 +13,7 @@
             font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end; /* Countdown am unteren Rand */
             color: white;
             background-color: #333;
         }
@@ -32,6 +32,8 @@
             display: flex;
             justify-content: center;
             gap: 20px;
+            opacity: 0.8; /* Transparenz des Countdowns */
+            margin-bottom: 20px; /* Abstand vom unteren Rand */
         }
 
         .time-block {
@@ -89,6 +91,24 @@
             bottom: 50%;
             transform: rotateX(0deg);
         }
+
+        #quote {
+            position: absolute;
+            bottom: 10px; /* Position in der unteren Hälfte */
+            width: 80%; /* Breite des Textbereichs */
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ecf0f1;
+            animation: fadeText 60s infinite; /* Animation der Texte alle 60 Sekunden */
+        }
+
+        @keyframes fadeText {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -99,6 +119,7 @@
         Dein Browser unterstützt dieses Videoformat nicht.
     </video>
 
+    <!-- Countdown -->
     <div id="countdown">
         <div class="time-block">
             <div class="flip" id="days">
@@ -126,9 +147,36 @@
         </div>
     </div>
 
+    <!-- Textanzeige -->
+    <div id="quote"></div>
+
     <script>
         // Ziel-Datum: 19. Juni 2025, 10:00 Uhr
         const targetDate = new Date(2025, 5, 19, 10, 0, 0);  // Monat 5 ist Juni (Monate beginnen bei 0)
+
+        // Textsätze für die Anzeige
+        const quotes = [
+            "Der Countdown läuft.",
+            "Bald ist es soweit.",
+            "Die Zeit vergeht schnell.",
+            "Nur noch wenige Tage!",
+            "Es wird spannend!",
+            "Hast du es schon gemerkt?",
+            "Der Moment rückt näher.",
+            "Die Uhr tickt.",
+            "Bereite dich vor.",
+            "Fast geschafft!",
+            "Jeder Augenblick zählt.",
+            "Es wird ein großes Ereignis.",
+            "Bist du bereit?",
+            "Die Spannung steigt.",
+            "Es ist fast soweit.",
+            "Verliere nicht den Blick.",
+            "Gleich geht's los.",
+            "Die letzten Momente.",
+            "Nur noch ein paar Sekunden.",
+            "Das Warten hat bald ein Ende."
+        ];
 
         // Funktion zum Update des Countdowns
         function updateCountdown() {
@@ -174,6 +222,16 @@
         // Update jede Sekunde
         setInterval(updateCountdown, 1000);
         updateCountdown();  // Initialer Aufruf
+
+        // Textanzeige alle Minute ändern
+        let currentQuoteIndex = 0;
+        function changeQuote() {
+            document.getElementById('quote').textContent = quotes[currentQuoteIndex];
+            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+        }
+
+        setInterval(changeQuote, 60000);  // Alle 60 Sekunden den Text wechseln
+        changeQuote();  // Initialer Aufruf der Textanzeige
 
         // Seite alle 10 Minuten neu laden
         setTimeout(function() {
