@@ -32,7 +32,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
-            opacity: 0.8; /* Transparenz des Countdowns */
+            opacity: 0.9; /* Transparenz des Countdowns */
             margin-bottom: 20px; /* Abstand vom unteren Rand */
         }
 
@@ -43,6 +43,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+        }
+
+        .time-block .block-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1); /* Transparenter weißer Block */
+            border-radius: 10px;
+            z-index: -1; /* Block hinter den Zahlen */
         }
 
         .flip {
@@ -63,10 +73,10 @@
             text-align: center;
             font-size: 6rem;
             font-weight: bold;
-            color: #003366;
+            color: white; /* Weiß für die Zahlen */
             line-height: 1;
             transform-origin: 50% 100%;
-            transition: transform 0.5s ease;
+            transition: transform 0.8s cubic-bezier(0.34, 0.69, 0.34, 1.26); /* Glattere Animation */
         }
 
         .flip .top,
@@ -122,24 +132,28 @@
     <!-- Countdown -->
     <div id="countdown">
         <div class="time-block">
+            <div class="block-background"></div>
             <div class="flip" id="days">
                 <div class="top">00</div>
                 <div class="bottom">00</div>
             </div>
         </div>
         <div class="time-block">
+            <div class="block-background"></div>
             <div class="flip" id="hours">
                 <div class="top">00</div>
                 <div class="bottom">00</div>
             </div>
         </div>
         <div class="time-block">
+            <div class="block-background"></div>
             <div class="flip" id="minutes">
                 <div class="top">00</div>
                 <div class="bottom">00</div>
             </div>
         </div>
         <div class="time-block">
+            <div class="block-background"></div>
             <div class="flip" id="seconds">
                 <div class="top">00</div>
                 <div class="bottom">00</div>
@@ -209,7 +223,7 @@
                     setTimeout(() => {
                         currentTop.textContent = newValueStr;  // Die oberste Zahl wird auf den neuen Wert gesetzt
                         element.classList.remove('flipping');  // Flip zurücksetzen
-                    }, 500);
+                    }, 800);
                 }
             }
 
