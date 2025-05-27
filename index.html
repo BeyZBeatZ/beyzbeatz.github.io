@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Countdown mit Video</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown mit Flip-Clock Effekt</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body, html {
-      height: 100%;
-      font-family: Arial, sans-serif;
+      height: 100vh;
       overflow: hidden;
-      background: black;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
       color: white;
+      background-color: #333;
     }
 
-    video#video-background {
-      position: fixed;
+    #video-background {
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
@@ -29,61 +28,112 @@
       z-index: -1;
     }
 
-    .overlay {
-      position: absolute;
-      bottom: 80px;
-      width: 100%;
+    #countdown {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      padding: 0 10px;
-      flex-wrap: wrap;
+      gap: 20px;
+      opacity: 0.9;
+      margin-bottom: 100px;
+      z-index: 1;
     }
 
     .time-block {
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 15px;
-      width: 80px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
+      perspective: 1000px;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-size: 2rem;
-      font-weight: bold;
-      text-align: center;
+      position: relative;
     }
 
-    .time-block .label {
-      font-size: 0.8rem;
-      margin-top: 5px;
-      color: #ccc;
+    .time-block .block-background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      z-index: -1;
+    }
+
+    .flip {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .flip div {
+      position: absolute;
+      width: 100%;
+      height: 50%;
+      text-align: center;
+      font-size: 5rem;
+      font-weight: bold;
+      color: white;
+      line-height: 1;
+      transform-origin: center center;
+      transition: transform 0.8s cubic-bezier(0.34, 0.69, 0.34, 1.26);
+    }
+
+    .flip .top,
+    .flip .bottom {
+      transform: rotateX(0deg);
+    }
+
+    .flip.flipping .top {
+      transform: rotateX(-90deg);
+    }
+
+    .flip.flipping .bottom {
+      transform: rotateX(90deg);
+    }
+
+    .flip .bottom {
+      top: 50%;
+      transform: rotateX(90deg);
+    }
+
+    .flip .top {
+      bottom: 50%;
+      transform: rotateX(0deg);
     }
 
     #quote {
       position: absolute;
       bottom: 20px;
-      width: 100%;
+      width: 80%;
       text-align: center;
-      font-size: 1.1rem;
-      padding: 10px;
-      background: rgba(0,0,0,0.5);
-      color: #f0f0f0;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #ecf0f1;
+      animation: fadeText 60s infinite;
+      z-index: 1;
     }
 
-    @media screen and (max-width: 600px) {
+    @keyframes fadeText {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
       .time-block {
-        width: 60px;
-        height: 80px;
-        font-size: 1.5rem;
+        width: 70px;
+        height: 70px;
       }
 
-      .time-block .label {
-        font-size: 0.6rem;
+      .flip div {
+        font-size: 2.5rem;
       }
 
       #quote {
-        font-size: 0.9rem;
+        font-size: 1rem;
       }
     }
   </style>
@@ -91,79 +141,118 @@
 <body>
 
   <!-- Hintergrundvideo -->
-  <video id="video-background" autoplay muted loop playsinline>
-    <source src="ay_yeni.mp4" type="video/mp4" />
-    Dein Browser unterstützt dieses Video nicht.
+  <video id="video-background" autoplay loop muted playsinline>
+    <source src="ay_yeni.mp4" type="video/mp4">
+    Dein Browser unterstützt dieses Videoformat nicht.
   </video>
 
   <!-- Countdown -->
-  <div class="overlay">
+  <div id="countdown">
     <div class="time-block">
-      <div id="days">00</div>
-      <div class="label">Tage</div>
+      <div class="block-background"></div>
+      <div class="flip" id="days">
+        <div class="top">00</div>
+        <div class="bottom">00</div>
+      </div>
     </div>
     <div class="time-block">
-      <div id="hours">00</div>
-      <div class="label">Stunden</div>
+      <div class="block-background"></div>
+      <div class="flip" id="hours">
+        <div class="top">00</div>
+        <div class="bottom">00</div>
+      </div>
     </div>
     <div class="time-block">
-      <div id="minutes">00</div>
-      <div class="label">Minuten</div>
+      <div class="block-background"></div>
+      <div class="flip" id="minutes">
+        <div class="top">00</div>
+        <div class="bottom">00</div>
+      </div>
     </div>
     <div class="time-block">
-      <div id="seconds">00</div>
-      <div class="label">Sekunden</div>
+      <div class="block-background"></div>
+      <div class="flip" id="seconds">
+        <div class="top">00</div>
+        <div class="bottom">00</div>
+      </div>
     </div>
   </div>
 
-  <!-- Text -->
+  <!-- Textanzeige -->
   <div id="quote"></div>
 
   <script>
-    const targetDate = new Date(2025, 5, 19, 10, 0, 0); // 19. Juni 2025, 10:00
+    const targetDate = new Date(2025, 5, 19, 10, 0, 0);
 
     const quotes = [
       "Der Countdown läuft.",
       "Bald ist es soweit.",
+      "Die Zeit vergeht schnell.",
       "Nur noch wenige Tage!",
+      "Es wird spannend!",
       "Die Uhr tickt.",
-      "Jeder Moment zählt.",
-      "Es wird ein besonderes Ereignis.",
       "Bereite dich vor.",
+      "Fast geschafft!",
+      "Jeder Augenblick zählt.",
+      "Es wird ein großes Ereignis.",
+      "Die Spannung steigt.",
+      "Es ist fast soweit.",
+      "Gleich geht's los.",
+      "Nur noch ein paar Sekunden.",
       "Das Warten hat bald ein Ende."
     ];
 
     function updateCountdown() {
       const now = new Date();
-      const diff = targetDate - now;
+      const timeLeft = targetDate - now;
 
-      if (diff <= 0) {
-        document.querySelector(".overlay").innerHTML = "<h2>Countdown beendet!</h2>";
+      if (timeLeft <= 0) {
+        document.getElementById('countdown').innerHTML = "<h2>Der Countdown ist abgelaufen!</h2>";
         return;
       }
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-      document.getElementById("days").textContent = String(days).padStart(2, "0");
-      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
-      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
-      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+      function updateTimeElement(id, newValue) {
+        const element = document.getElementById(id);
+        const currentTop = element.querySelector('.top');
+        const currentBottom = element.querySelector('.bottom');
+        const newValueStr = newValue.toString().padStart(2, '0');
+
+        if (currentTop.textContent !== newValueStr) {
+          currentBottom.textContent = newValueStr;
+          element.classList.add('flipping');
+          setTimeout(() => {
+            currentTop.textContent = newValueStr;
+            element.classList.remove('flipping');
+          }, 800);
+        }
+      }
+
+      updateTimeElement('days', days);
+      updateTimeElement('hours', hours);
+      updateTimeElement('minutes', minutes);
+      updateTimeElement('seconds', seconds);
     }
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    let currentQuote = 0;
-    function updateQuote() {
-      document.getElementById("quote").textContent = quotes[currentQuote];
-      currentQuote = (currentQuote + 1) % quotes.length;
+    let currentQuoteIndex = 0;
+    function changeQuote() {
+      document.getElementById('quote').textContent = quotes[currentQuoteIndex];
+      currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
     }
 
-    setInterval(updateQuote, 60000);
-    updateQuote();
+    setInterval(changeQuote, 60000);
+    changeQuote();
+
+    // Optional: Seite alle 10 Minuten neu laden
+    // setTimeout(() => location.reload(), 600000);
   </script>
+
 </body>
 </html>
