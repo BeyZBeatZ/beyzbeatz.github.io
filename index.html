@@ -6,12 +6,12 @@
   <title>Countdown mit Video</title>
   <style>
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
 
     body, html {
-      margin: 0;
-      padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
       overflow: hidden;
@@ -29,33 +29,32 @@
       z-index: -1;
     }
 
-    #countdown {
+    .overlay {
+      position: absolute;
+      bottom: 80px;
+      width: 100%;
       display: flex;
       justify-content: center;
-      align-items: flex-end;
       gap: 15px;
-      padding: 20px;
-      height: 100vh;
+      padding: 0 10px;
       flex-wrap: wrap;
     }
 
     .time-block {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.6);
       border-radius: 15px;
       width: 80px;
       height: 100px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      font-size: 2.5rem;
+      align-items: center;
+      font-size: 2rem;
       font-weight: bold;
       text-align: center;
-      position: relative;
-      box-shadow: 0 0 10px rgba(255,255,255,0.2);
     }
 
-    .label {
+    .time-block .label {
       font-size: 0.8rem;
       margin-top: 5px;
       color: #ccc;
@@ -63,44 +62,42 @@
 
     #quote {
       position: absolute;
-      bottom: 10px;
+      bottom: 20px;
       width: 100%;
       text-align: center;
-      font-size: 1.2rem;
-      color: #f0f0f0;
+      font-size: 1.1rem;
       padding: 10px;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.5);
+      color: #f0f0f0;
     }
 
-    @media screen and (max-width: 500px) {
-      #countdown {
-        gap: 10px;
-      }
-
+    @media screen and (max-width: 600px) {
       .time-block {
         width: 60px;
         height: 80px;
         font-size: 1.5rem;
       }
 
-      .label {
+      .time-block .label {
         font-size: 0.6rem;
       }
 
       #quote {
-        font-size: 1rem;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
 
+  <!-- Hintergrundvideo -->
   <video id="video-background" autoplay muted loop playsinline>
     <source src="ay_yeni.mp4" type="video/mp4" />
-    Dein Browser unterstützt das Video nicht.
+    Dein Browser unterstützt dieses Video nicht.
   </video>
 
-  <div id="countdown">
+  <!-- Countdown -->
+  <div class="overlay">
     <div class="time-block">
       <div id="days">00</div>
       <div class="label">Tage</div>
@@ -119,6 +116,7 @@
     </div>
   </div>
 
+  <!-- Text -->
   <div id="quote"></div>
 
   <script>
@@ -140,7 +138,7 @@
       const diff = targetDate - now;
 
       if (diff <= 0) {
-        document.getElementById('countdown').innerHTML = "<h2>Countdown beendet!</h2>";
+        document.querySelector(".overlay").innerHTML = "<h2>Countdown beendet!</h2>";
         return;
       }
 
@@ -149,10 +147,10 @@
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      document.getElementById('days').textContent = String(days).padStart(2, '0');
-      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      document.getElementById("days").textContent = String(days).padStart(2, "0");
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
     }
 
     setInterval(updateCountdown, 1000);
@@ -160,7 +158,7 @@
 
     let currentQuote = 0;
     function updateQuote() {
-      document.getElementById('quote').textContent = quotes[currentQuote];
+      document.getElementById("quote").textContent = quotes[currentQuote];
       currentQuote = (currentQuote + 1) % quotes.length;
     }
 
