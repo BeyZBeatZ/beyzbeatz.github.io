@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown mit Flip-Clock Effekt und Text</title>
+    <title>Countdown mit ruhigem Stil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Orbitron', sans-serif;
             display: flex;
             justify-content: center;
-            align-items: flex-end; /* Countdown am unteren Rand */
+            align-items: flex-end;
+            background-color: #000;
             color: white;
-            background-color: #333;
         }
 
         #video-background {
@@ -30,87 +31,42 @@
 
         #countdown {
             display: flex;
-            justify-content: center;
             gap: 20px;
-            opacity: 0.9; /* Transparenz des Countdowns */
-            margin-bottom: 100px; /* Abstand vom unteren Rand */
+            margin-bottom: 100px;
+            opacity: 0.95;
         }
 
         .time-block {
-            width: 120px;
-            height: 120px; /* Die Höhe wurde angepasst, damit sie zu den Zahlen passen */
-            perspective: 1000px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        .time-block .block-background {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.1); /* Transparenter weißer Block */
+            background-color: rgba(0, 0, 0, 0.6);
             border-radius: 10px;
-            z-index: -1; /* Block hinter den Zahlen */
-        }
-
-        .flip {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .flip div {
-            position: absolute;
-            width: 100%;
-            height: 50%; /* Wir teilen die Zahl in obere und untere Hälfte */
+            padding: 20px 15px;
             text-align: center;
-            font-size: 5rem; /* Schriftgröße an die Blockgröße angepasst */
-            font-weight: bold;
-            color: white; /* Weiß für die Zahlen */
-            line-height: 1;
-            transform-origin: center center; /* Flip um die Mitte der Zahl */
-            transition: transform 0.8s cubic-bezier(0.34, 0.69, 0.34, 1.26); /* Glattere Animation */
+            font-size: 3.5rem;
+            min-width: 90px;
+            animation: fadeInUp 1s ease forwards;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
-        .flip .top,
-        .flip .bottom {
-            transform: rotateX(0deg);
-        }
-
-        .flip.flipping .top {
-            transform: rotateX(-90deg);
-        }
-
-        .flip.flipping .bottom {
-            transform: rotateX(90deg);
-        }
-
-        .flip .bottom {
-            top: 50%;
-            transform: rotateX(90deg);
-        }
-
-        .flip .top {
-            bottom: 50%;
-            transform: rotateX(0deg);
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         #quote {
             position: absolute;
-            bottom: 20px; /* Position in der unteren Hälfte */
-            width: 80%; /* Breite des Textbereichs */
+            bottom: 20px;
+            width: 100%;
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #ecf0f1;
-            animation: fadeText 60s infinite; /* Animation der Texte alle 60 Sekunden */
+            animation: fadeText 60s infinite;
         }
 
         @keyframes fadeText {
@@ -123,52 +79,26 @@
 </head>
 <body>
 
-    <!-- Hintergrund Video -->
+    <!-- Hintergrundvideo -->
     <video id="video-background" autoplay loop muted>
         <source src="ay_yeni.mp4" type="video/mp4">
         Dein Browser unterstützt dieses Videoformat nicht.
     </video>
 
-    <!-- Countdown -->
+    <!-- Countdown-Anzeige -->
     <div id="countdown">
-        <div class="time-block">
-            <div class="block-background"></div>
-            <div class="flip" id="days">
-                <div class="top">00</div>
-                <div class="bottom">00</div>
-            </div>
-        </div>
-        <div class="time-block">
-            <div class="block-background"></div>
-            <div class="flip" id="hours">
-                <div class="top">00</div>
-                <div class="bottom">00</div>
-            </div>
-        </div>
-        <div class="time-block">
-            <div class="block-background"></div>
-            <div class="flip" id="minutes">
-                <div class="top">00</div>
-                <div class="bottom">00</div>
-            </div>
-        </div>
-        <div class="time-block">
-            <div class="block-background"></div>
-            <div class="flip" id="seconds">
-                <div class="top">00</div>
-                <div class="bottom">00</div>
-            </div>
-        </div>
+        <div class="time-block" id="days">00</div>
+        <div class="time-block" id="hours">00</div>
+        <div class="time-block" id="minutes">00</div>
+        <div class="time-block" id="seconds">00</div>
     </div>
 
     <!-- Textanzeige -->
     <div id="quote"></div>
 
     <script>
-        // Ziel-Datum: 19. Juni 2025, 10:00 Uhr
-        const targetDate = new Date(2025, 5, 19, 10, 0, 0);  // Monat 5 ist Juni (Monate beginnen bei 0)
+        const targetDate = new Date(2025, 5, 19, 10, 0, 0); // 19. Juni 2025, 10:00 Uhr
 
-        // Textsätze für die Anzeige
         const quotes = [
             "Der Countdown läuft.",
             "Bald ist es soweit.",
@@ -192,7 +122,6 @@
             "Das Warten hat bald ein Ende."
         ];
 
-        // Funktion zum Update des Countdowns
         function updateCountdown() {
             const now = new Date();
             const timeLeft = targetDate - now;
@@ -207,50 +136,29 @@
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            // Funktion zum Aktualisieren der Zahl mit Flip-Effekt
-            function updateTimeElement(id, newValue) {
-                const element = document.getElementById(id);
-                const currentTop = element.querySelector('.top');
-                const currentBottom = element.querySelector('.bottom');
-                const newValueStr = newValue.toString().padStart(2, '0');
-
-                // Wenn sich der Wert ändert, animiere den Flip
-                if (currentTop.textContent !== newValueStr) {
-                    currentBottom.textContent = newValueStr;  // Neue Zahl in der unteren Hälfte setzen
-                    element.classList.add('flipping');  // Flip-Animation starten
-
-                    // Animation zurücksetzen, nachdem die Animation abgeschlossen ist
-                    setTimeout(() => {
-                        currentTop.textContent = newValueStr;  // Die oberste Zahl wird auf den neuen Wert gesetzt
-                        element.classList.remove('flipping');  // Flip zurücksetzen
-                    }, 800);
-                }
-            }
-
-            updateTimeElement('days', days);
-            updateTimeElement('hours', hours);
-            updateTimeElement('minutes', minutes);
-            updateTimeElement('seconds', seconds);
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
         }
 
-        // Update jede Sekunde
         setInterval(updateCountdown, 1000);
-        updateCountdown();  // Initialer Aufruf
+        updateCountdown();
 
-        // Textanzeige alle Minute ändern
+        // Texte wechseln
         let currentQuoteIndex = 0;
         function changeQuote() {
             document.getElementById('quote').textContent = quotes[currentQuoteIndex];
             currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
         }
 
-        setInterval(changeQuote, 60000);  // Ändert den Text alle 60 Sekunden
-        changeQuote();  // Initialer Text
+        setInterval(changeQuote, 60000);  // alle 60 Sekunden
+        changeQuote();
 
         // Seite alle 10 Minuten neu laden
         setTimeout(function() {
             location.reload();
-        }, 600000);  // 600000 Millisekunden = 10 Minuten
+        }, 600000);
     </script>
 
 </body>
