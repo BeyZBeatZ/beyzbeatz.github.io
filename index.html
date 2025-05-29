@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flip Clock Countdown</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realistischer Flip-Countdown</title>
   <style>
-    /* ----- CSS-RESET & BASISSTYLES ----- */
+    /* ----- BASIS-RESET & STYLES ----- */
     * {
       margin: 0;
       padding: 0;
@@ -17,12 +17,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      background: #111;
       font-family: 'Arial', sans-serif;
       overflow: hidden;
-      background: #000;
     }
 
-    /* ----- VIDEO-HINTERGRUND ----- */
+    /* ----- VIDEO-HINTERGRUND (OPTIONAL) ----- */
     #bgVideo {
       position: fixed;
       top: 50%;
@@ -31,143 +31,156 @@
       min-width: 100%;
       min-height: 100%;
       z-index: -1;
-      opacity: 0.8;
+      opacity: 0.7;
     }
 
-    /* ----- OVERLAY & COUNTDOWN-CONTAINER ----- */
-    .overlay {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 2rem;
-      border-radius: 15px;
-      text-align: center;
-      backdrop-filter: blur(5px);
-    }
-
+    /* ----- COUNTDOWN-CONTAINER ----- */
     .flip-clock {
       display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-bottom: 1.5rem;
+      gap: 10px;
     }
 
-    /* ----- FLIP-CARD-STYLES ----- */
+    /* ----- FLIP-CARD-STYLES (WIE IM VIDEO) ----- */
     .flip-unit {
       position: relative;
-      width: 80px;
-      height: 100px;
+      width: 100px;
+      height: 150px;
       perspective: 1000px;
     }
 
-    .card {
-      position: relative;
+    .flip-card {
       width: 100%;
       height: 100%;
+      position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.5s;
     }
 
-    .card.flip {
-      transform: rotateX(180deg);
-    }
-
-    .card-face {
+    .top-card, .bottom-card {
       position: absolute;
       width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
+      height: 50%;
+      overflow: hidden;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 3rem;
+      align-items: center;
+      font-size: 5rem;
       font-weight: bold;
       color: white;
-      background: linear-gradient(135deg, #2c3e50, #4a6491);
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      background: #222;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     }
 
-    .card-face.back {
-      background: linear-gradient(135deg, #4a6491, #2c3e50);
-      transform: rotateX(180deg);
+    .top-card {
+      top: 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      transform-origin: bottom;
     }
 
-    /* ----- LABELS & TEXT ----- */
+    .bottom-card {
+      bottom: 0;
+      border-radius: 0 0 8px 8px;
+      align-items: flex-start;
+      background: #333;
+    }
+
+    /* ----- ANIMATION (FLIP-EFFEKT) ----- */
+    .flip-animation {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 50%;
+      transform-origin: bottom;
+      transform: rotateX(0deg);
+      background: #222;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 5rem;
+      color: white;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+      backface-visibility: hidden;
+    }
+
+    .flip-animation.flip {
+      animation: flip 0.6s cubic-bezier(0.37, 0.01, 0.63, 0.99) forwards;
+    }
+
+    @keyframes flip {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(-180deg); }
+    }
+
+    /* ----- LABELS (TAGE, STUNDEN, ETC.) ----- */
     .flip-unit::after {
       content: attr(data-label);
       position: absolute;
       bottom: -25px;
       left: 0;
       width: 100%;
+      text-align: center;
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.7);
       text-transform: uppercase;
-    }
-
-    .countdown-text {
-      font-size: 1.5rem;
-      color: white;
-      margin-top: 1rem;
     }
 
     /* ----- MOBILE-RESPONSIVE ----- */
     @media (max-width: 768px) {
-      .flip-clock {
-        gap: 0.5rem;
-      }
       .flip-unit {
-        width: 60px;
-        height: 80px;
+        width: 70px;
+        height: 110px;
       }
-      .card-face {
-        font-size: 2rem;
-      }
-      .countdown-text {
-        font-size: 1.2rem;
+      .top-card, .bottom-card, .flip-animation {
+        font-size: 3.5rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Video-Hintergrund (ersetze "deinvideo.mp4" mit deinem Video) -->
+  <!-- Video-Hintergrund (optional) -->
   <video autoplay muted loop id="bgVideo">
     <source src="ay_yeni.mp4" type="video/mp4">
     Dein Browser unterstützt kein HTML5-Video.
   </video>
 
-  <!-- Countdown-Overlay -->
-  <div class="overlay">
-    <div class="flip-clock">
-      <div class="flip-unit" id="days" data-label="Tage">
-        <div class="card">
-          <div class="card-face front">00</div>
-          <div class="card-face back">00</div>
-        </div>
-      </div>
-      <div class="flip-unit" id="hours" data-label="Stunden">
-        <div class="card">
-          <div class="card-face front">00</div>
-          <div class="card-face back">00</div>
-        </div>
-      </div>
-      <div class="flip-unit" id="minutes" data-label="Minuten">
-        <div class="card">
-          <div class="card-face front">00</div>
-          <div class="card-face back">00</div>
-        </div>
-      </div>
-      <div class="flip-unit" id="seconds" data-label="Sekunden">
-        <div class="card">
-          <div class="card-face front">00</div>
-          <div class="card-face back">00</div>
-        </div>
+  <!-- Countdown -->
+  <div class="flip-clock">
+    <div class="flip-unit" data-label="Tage">
+      <div class="flip-card" id="days">
+        <div class="top-card">00</div>
+        <div class="bottom-card">00</div>
       </div>
     </div>
-    <div class="countdown-text">Der Countdown läuft...</div>
+    <div class="flip-unit" data-label="Stunden">
+      <div class="flip-card" id="hours">
+        <div class="top-card">00</div>
+        <div class="bottom-card">00</div>
+      </div>
+    </div>
+    <div class="flip-unit" data-label="Minuten">
+      <div class="flip-card" id="minutes">
+        <div class="top-card">00</div>
+        <div class="bottom-card">00</div>
+      </div>
+    </div>
+    <div class="flip-unit" data-label="Sekunden">
+      <div class="flip-card" id="seconds">
+        <div class="top-card">00</div>
+        <div class="bottom-card">00</div>
+      </div>
+    </div>
   </div>
 
+  <!-- Flip-Sound (unsichtbar) -->
+  <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-clock-countdown-bleeps-916.mp3" preload="auto"></audio>
+
   <script>
-    // ----- ZIEL-DATUM FÜR COUNTDOWN (HIER ANPASSEN!) -----
-    const targetDate = new Date("2024-12-31T23:59:59").getTime();
+    // ----- ZIEL-DATUM (HIER ANPASSEN!) -----
+    const targetDate = new Date("2025-06-19T10:00:00").getTime();
+
+    // ----- FLIP-SOUND LADEN -----
+    const flipSound = document.getElementById("flipSound");
 
     // ----- COUNTDOWN-FUNKTION -----
     function updateCountdown() {
@@ -180,33 +193,37 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      // Update die Flip-Cards
-      flipCard("days", days);
-      flipCard("hours", hours);
-      flipCard("minutes", minutes);
-      flipCard("seconds", seconds);
-
-      // Countdown-Text anpassen
-      document.querySelector(".countdown-text").textContent = 
-        distance > 0 ? "Der Countdown läuft..." : "Countdown beendet!";
+      // Update die Karten (mit Animation)
+      updateFlipCard("days", days);
+      updateFlipCard("hours", hours);
+      updateFlipCard("minutes", minutes);
+      updateFlipCard("seconds", seconds);
     }
 
-    // ----- FLIP-ANIMATION -----
-    function flipCard(unit, value) {
-      const card = document.getElementById(unit).querySelector(".card");
-      const front = card.querySelector(".front");
-      const back = card.querySelector(".back");
+    // ----- FLIP-CARD-ANIMATION (WIE IM VIDEO) -----
+    function updateFlipCard(unit, value) {
+      const flipCard = document.getElementById(unit);
+      const topCard = flipCard.querySelector(".top-card");
+      const bottomCard = flipCard.querySelector(".bottom-card");
 
       // Nur animieren, wenn sich der Wert ändert
-      if (front.textContent !== formatTime(value)) {
-        front.textContent = formatTime(value);
-        back.textContent = formatTime(value);
-        card.classList.add("flip");
+      if (topCard.textContent !== formatTime(value)) {
+        // Erstelle eine neue Flip-Animation
+        const flipAnimation = document.createElement("div");
+        flipAnimation.className = "flip-animation flip";
+        flipAnimation.textContent = topCard.textContent;
+        flipCard.appendChild(flipAnimation);
 
-        // Reset Animation nach 0.5s
+        // Sound abspielen
+        flipSound.currentTime = 0;
+        flipSound.play();
+
+        // Nach der Animation Werte aktualisieren
         setTimeout(() => {
-          card.classList.remove("flip");
-        }, 500);
+          topCard.textContent = formatTime(value);
+          bottomCard.textContent = formatTime(value);
+          flipAnimation.remove();
+        }, 600);
       }
     }
 
