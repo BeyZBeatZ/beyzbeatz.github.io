@@ -1,4 +1,4 @@
-const targetDate = new Date(2025, 5, 19, 10, 0, 0);
+const targetDate = new Date(2025, 5, 19, 10, 0, 0); // 19. Juni 2025, 10:00
 
 function updateTime() {
   const now = new Date();
