@@ -42,7 +42,7 @@
       height: 120px;
       perspective: 1000px;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       position: relative;
     }
@@ -80,19 +80,6 @@
       transition: transform 0.8s cubic-bezier(0.34, 0.69, 0.34, 1.26);
     }
 
-    .flip .top,
-    .flip .bottom {
-      transform: rotateX(0deg);
-    }
-
-    .flip.flipping .top {
-      transform: rotateX(-90deg);
-    }
-
-    .flip.flipping .bottom {
-      transform: rotateX(90deg);
-    }
-
     .flip .bottom {
       top: 50%;
       transform: rotateX(90deg);
@@ -101,6 +88,20 @@
     .flip .top {
       bottom: 50%;
       transform: rotateX(0deg);
+    }
+
+    .flip.flipping .top {
+      transform: rotateX(-90deg);
+    }
+
+    .flip.flipping .bottom {
+      transform: rotateX(0deg);
+    }
+
+    .label {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #ccc;
     }
 
     #quote {
@@ -132,6 +133,10 @@
         font-size: 2.5rem;
       }
 
+      .label {
+        font-size: 0.75rem;
+      }
+
       #quote {
         font-size: 1rem;
       }
@@ -140,8 +145,8 @@
 </head>
 <body>
 
-  <!-- Hintergrundvideo -->
-  <video id="video-background" autoplay loop muted playsinline>
+  <!-- Hintergrundvideo mit Fallback-Bild -->
+  <video id="video-background" autoplay loop muted playsinline poster="fallback.jpg">
     <source src="ay_yeni.mp4" type="video/mp4">
     Dein Browser unterstützt dieses Videoformat nicht.
   </video>
@@ -150,39 +155,43 @@
   <div id="countdown">
     <div class="time-block">
       <div class="block-background"></div>
-      <div class="flip" id="days">
+      <div class="flip" id="days" aria-label="Tage" role="timer">
         <div class="top">00</div>
         <div class="bottom">00</div>
       </div>
+      <div class="label">Tage</div>
     </div>
     <div class="time-block">
       <div class="block-background"></div>
-      <div class="flip" id="hours">
+      <div class="flip" id="hours" aria-label="Stunden" role="timer">
         <div class="top">00</div>
         <div class="bottom">00</div>
       </div>
+      <div class="label">Stunden</div>
     </div>
     <div class="time-block">
       <div class="block-background"></div>
-      <div class="flip" id="minutes">
+      <div class="flip" id="minutes" aria-label="Minuten" role="timer">
         <div class="top">00</div>
         <div class="bottom">00</div>
       </div>
+      <div class="label">Minuten</div>
     </div>
     <div class="time-block">
       <div class="block-background"></div>
-      <div class="flip" id="seconds">
+      <div class="flip" id="seconds" aria-label="Sekunden" role="timer">
         <div class="top">00</div>
         <div class="bottom">00</div>
       </div>
+      <div class="label">Sekunden</div>
     </div>
   </div>
 
-  <!-- Textanzeige -->
+  <!-- Zitat-Anzeige -->
   <div id="quote"></div>
 
   <script>
-    const targetDate = new Date(2025, 5, 19, 10, 0, 0);
+    const targetDate = new Date(2025, 5, 19, 10, 0, 0); // 19. Juni 2025, 10:00 Uhr
 
     const quotes = [
       "Der Countdown läuft.",
@@ -249,9 +258,6 @@
 
     setInterval(changeQuote, 60000);
     changeQuote();
-
-    // Optional: Seite alle 10 Minuten neu laden
-    // setTimeout(() => location.reload(), 600000);
   </script>
 
 </body>
