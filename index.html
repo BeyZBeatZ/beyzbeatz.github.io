@@ -14,9 +14,9 @@
       background-color: #000;
       color: white;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
     }
 
     #video-background {
@@ -32,8 +32,8 @@
     #countdown {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      margin-bottom: 30px;
+      gap: 30px;
+      margin-bottom: 50px;
       z-index: 1;
     }
 
@@ -41,14 +41,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 90px;
+      width: 120px;
     }
 
     .flip {
       background: rgba(255, 255, 255, 0.1);
       border-radius: 10px;
-      width: 90px;
-      height: 100px;
+      width: 120px;
+      height: 150px;
       perspective: 1000px;
       position: relative;
       overflow: hidden;
@@ -61,7 +61,7 @@
       position: absolute;
       width: 100%;
       height: 50%;
-      font-size: 2.5rem;
+      font-size: 4rem;
       font-weight: bold;
       display: flex;
       align-items: center;
@@ -101,18 +101,19 @@
     }
 
     .label {
-      margin-top: 8px;
-      font-size: 0.85rem;
+      margin-top: 10px;
+      font-size: 1.2rem;
       color: #eee;
       text-align: center;
     }
 
     #quote {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       font-weight: bold;
       text-align: center;
       animation: fadeText 60s infinite;
       padding: 0 10px;
+      margin-bottom: 20px;
     }
 
     @keyframes fadeText {
@@ -124,17 +125,17 @@
 
     @media (max-width: 600px) {
       .flip {
-        width: 60px;
-        height: 70px;
+        width: 80px;
+        height: 100px;
       }
       .flip .top, .flip .bottom {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
       }
       .label {
-        font-size: 0.7rem;
+        font-size: 0.9rem;
       }
       #quote {
-        font-size: 1rem;
+        font-size: 1.2rem;
       }
     }
   </style>
