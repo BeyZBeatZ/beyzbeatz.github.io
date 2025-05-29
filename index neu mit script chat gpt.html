@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flip Clock Countdown</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Flip.js CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/@pqina/flip/dist/flip.min.css">
+</head>
+<body>
+  <!-- Hintergrundvideo -->
+  <video autoplay muted loop id="bgVideo">
+    <source src="deinvideo.mp4" type="video/mp4">
+    Dein Browser unterstützt kein HTML5-Video.
+  </video>
+
+  <!-- Overlay für Countdown und Sätze -->
+  <div class="overlay">
+    <div id="flip-clock" class="flip-clock"></div>
+    <div id="sentence" class="sentence">Der Countdown läuft.</div>
+  </div>
+
+  <!-- Flip.js JS -->
+  <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
