@@ -4,115 +4,100 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000">
-  <title>ICAZET Countdown</title>
+  <title>Universal Countdown</title>
   <style>
+    /* ===== UNIVERSAL STYLES ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-text-size-adjust: none;
+      text-size-adjust: none;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
+      width: 100vw;
       height: 100vh;
       height: -webkit-fill-available;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: center;
       background: #000;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
       overflow: hidden;
-      padding-bottom: 8vh;
+      font-family: 'Arial', sans-serif;
+      padding: 5%;
       touch-action: manipulation;
     }
 
-    /* Video-Hintergrund mit Fallback */
-    #bgVideo {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
-      opacity: 0.8;
-      object-fit: cover;
-    }
-
-    .video-fallback {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      z-index: -2;
-    }
-
-    /* Countdown-Container */
+    /* ===== CROSS-DEVICE LAYOUT ===== */
     .flip-clock {
       display: flex;
-      gap: 1.5vw;
-      justify-content: center;
       flex-wrap: wrap;
-      width: 90%;
-      max-width: 800px;
+      justify-content: center;
+      gap: 2vmin;
+      width: 100%;
+      max-width: 1200px;
     }
 
-    /* Digit-Container */
     .digit-group {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 0 0.5vw;
+      margin: 0 1vmin;
+      flex: 1 1 auto;
+      min-width: 22vmin;
     }
 
     .digit-container {
-      position: relative;
-      width: 22vw;
-      width: clamp(70px, 22vw, 120px);
-      height: 24vw;
-      height: clamp(80px, 24vw, 130px);
-      max-width: 120px;
-      max-height: 130px;
+      width: 22vmin;
+      height: 25vmin;
       min-width: 70px;
       min-height: 80px;
+      max-width: 200px;
+      max-height: 220px;
+      position: relative;
       perspective: 1000px;
       -webkit-perspective: 1000px;
     }
 
-    /* Aktuelle Zahl */
     .current-digit {
       width: 100%;
       height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 10vw;
-      font-size: clamp(40px, 10vw, 80px);
+      font-size: 10vmin;
       font-weight: bold;
       color: white;
       background: rgba(30, 30, 30, 0.9);
-      border-radius: 2vw;
-      box-shadow: 0 1vw 2vw rgba(0, 0, 0, 0.5);
+      border-radius: 1.5vmin;
+      box-shadow: 0 1vmin 1.5vmin rgba(0,0,0,0.3);
       position: relative;
       z-index: 1;
-      user-select: none;
     }
 
-    /* Beschriftung */
     .digit-label {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 3vw;
-      font-size: clamp(12px, 3vw, 20px);
-      margin-top: 1.5vw;
+      color: rgba(255,255,255,0.8);
+      font-size: 3vmin;
+      margin-top: 2vmin;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      user-select: none;
     }
 
-    /* Animation */
+    .text-display {
+      color: #fff;
+      font-size: 4vmin;
+      text-align: center;
+      margin-top: 5vmin;
+      padding: 2vmin 4vmin;
+      background: rgba(0,0,0,0.7);
+      border-radius: 2vmin;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    /* ===== ANIMATIONS ===== */
     .flip-card {
       position: absolute;
       top: 0;
@@ -120,10 +105,8 @@
       width: 100%;
       height: 100%;
       transform-style: preserve-3d;
-      transform-origin: center;
-      z-index: 2;
       -webkit-transform-style: preserve-3d;
-      -webkit-transform-origin: center;
+      z-index: 2;
     }
 
     .flip-animation {
@@ -133,16 +116,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 10vw;
-      font-size: clamp(40px, 10vw, 80px);
+      font-size: 10vmin;
       font-weight: bold;
       color: white;
-      background: rgba(40, 40, 40, 0.9);
-      border-radius: 2vw;
+      background: rgba(40,40,40,0.9);
+      border-radius: 1.5vmin;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
       transform: rotateX(0deg);
-      box-shadow: 0 1vw 2vw rgba(0, 0, 0, 0.5);
     }
 
     .flip-animation.flip {
@@ -160,74 +141,12 @@
       100% { -webkit-transform: rotateX(-180deg); }
     }
 
-    /* Text-Anzeige */
-    .text-display {
-      text-align: center;
-      width: 90%;
-      max-width: 600px;
-      color: white;
-      font-size: clamp(1rem, 4vw, 1.5rem);
-      padding: clamp(10px, 3vw, 20px);
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 2vw;
-      margin-top: 5vw;
-      opacity: 1;
-      transition: opacity 1s ease;
-      user-select: none;
-    }
-
-    /* Countdown finished styles */
-    .countdown-finished {
-      font-size: clamp(1.5rem, 6vw, 2.5rem);
-      font-weight: bold;
-      color: #fff;
-      text-align: center;
-      margin-top: 20px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-      display: none;
-    }
-
-    /* Kompatibilitätswarnung */
-    .compatibility-warning {
-      color: white;
-      background: rgba(255, 0, 0, 0.7);
-      padding: 15px;
-      border-radius: 5px;
-      text-align: center;
-      margin: 20px;
-      display: none;
-    }
-
-    /* Touch-Optimierungen */
-    @media (pointer: coarse) {
+    /* ===== SPECIAL DEVICE ADJUSTMENTS ===== */
+    /* TV Optimierungen */
+    @media (min-aspect-ratio: 16/9) {
       .digit-container {
-        width: 25vw;
-        height: 27vw;
-      }
-      .digit-label {
-        font-size: 4vw;
-      }
-    }
-
-    /* Portrait-Modus Anpassungen */
-    @media (orientation: portrait) and (max-height: 600px) {
-      .digit-container {
-        width: 18vw;
-        height: 20vw;
-      }
-      .current-digit, .flip-animation {
-        font-size: 8vw;
-      }
-      .digit-label {
-        font-size: 2.5vw;
-      }
-    }
-
-    /* Landscape-Modus Anpassungen */
-    @media (orientation: landscape) {
-      .digit-container {
-        width: 15vh;
-        height: 16vh;
+        width: 16vh;
+        height: 18vh;
       }
       .current-digit, .flip-animation {
         font-size: 8vh;
@@ -235,37 +154,33 @@
       .digit-label {
         font-size: 2.5vh;
       }
-      .text-display {
-        font-size: clamp(1rem, 3vh, 1.5rem);
+    }
+
+    /* Mobile Portrait */
+    @media (orientation: portrait) and (max-height: 700px) {
+      .digit-container {
+        width: 20vmin;
+        height: 22vmin;
+      }
+      .digit-label {
+        font-size: 2.5vmin;
       }
     }
 
-    /* Safari-spezifische Anpassungen */
-    @supports (-webkit-touch-callout: none) {
-      body {
-        height: -webkit-fill-available;
+    /* Fallback für sehr alte Browser */
+    .no-flexbox & {
+      .flip-clock {
+        display: table;
+        width: 100%;
       }
-      .digit-container {
-        height: 20vh;
+      .digit-group {
+        display: table-cell;
+        vertical-align: middle;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Video-Hintergrund mit Fallback -->
-  <video autoplay muted loop playsinline id="bgVideo" poster="fallback.jpg">
-    <source src="ay.mp4" type="video/mp4">
-    <source src="ay.webm" type="video/webm">
-    Your browser does not support HTML5 video.
-  </video>
-  <div class="video-fallback"></div>
-
-  <!-- Kompatibilitätswarnung -->
-  <div class="compatibility-warning" id="compatibility-warning">
-    Ihr Gerät unterstützt nicht alle Funktionen dieses Countdowns
-  </div>
-
-  <!-- Countdown mit Beschriftungen -->
   <div class="flip-clock" id="countdown-container">
     <div class="digit-group">
       <div class="digit-container" id="days-container">
@@ -296,126 +211,91 @@
     </div>
   </div>
 
-  <!-- Text-Anzeige -->
   <div class="text-display" id="text-element">
     Geri sayım başladı!
   </div>
 
-  <!-- Countdown finished message -->
-  <div class="countdown-finished" id="finished-message">
-    Zaman geldi! Beklenen an şimdi!
-  </div>
-
-  <!-- Sound -->
-  <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-clock-countdown-bleeps-916.mp3" preload="auto"></audio>
+  <audio id="flipSound" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-clock-countdown-bleeps-916.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    // Warten bis DOM vollständig geladen
+    // ===== UNIVERSAL INITIALIZATION =====
     document.addEventListener('DOMContentLoaded', function() {
       // Feature Detection
-      if (!('requestAnimationFrame' in window) || !('flexWrap' in document.documentElement.style)) {
-        document.getElementById('compatibility-warning').style.display = 'block';
-      }
+      const supportsFlex = 'flex' in document.documentElement.style;
+      if (!supportsFlex) document.body.classList.add('no-flexbox');
       
-      // Audio-Kontext für mobile Geräte aktivieren
-      function activateAudio() {
-        const audio = document.getElementById('flipSound');
-        audio.volume = 0.5;
-        try {
-          audio.play().then(() => {
-            audio.pause();
-            audio.currentTime = 0;
-          }).catch(e => console.log("Audio-Vorschau fehlgeschlagen:", e));
-        } catch (e) {
-          console.log("Audio-Fehler:", e);
-        }
-        document.body.removeEventListener('click', activateAudio);
-      }
-      
-      document.body.addEventListener('click', activateAudio);
-      
-      // Countdown-Logik
+      // Config
       const targetDate = new Date("2025-06-19T10:00:00").getTime();
       const flipSound = document.getElementById('flipSound');
       const textElement = document.getElementById('text-element');
-      const countdownContainer = document.getElementById('countdown-container');
-      const finishedMessage = document.getElementById('finished-message');
       
-      // Texte
+      // Content
       const texts = [
         "Geri sayım başladı!",
-        "Beklediğimiz gün geliyor!",
-        "Tarihe geçecek bir an için hazır ol.",
-        "Hazırlan, büyük an kapıda!",
-        "Göz açıp kapayıncaya kadar burada olacağız!",
-        "Zaman geçer, anlar kalır.",
-        "Sessizlikten önceki en derin nefes: bu an."
+        "Beklenen an yaklaşıyor!",
+        "Tarihi an için hazır olun",
+        "Büyük gün yakında!",
+        "Saymaya devam ediyoruz!"
       ];
       
+      // State
       let currentValues = { days: 0, hours: 0, minutes: 0, seconds: 0 };
       let lastValues = { days: -1, hours: -1, minutes: -1, seconds: -1 };
       let currentTextIndex = 0;
-      let countdownActive = true;
-
-      // Hauptfunktionen
+      
+      // ===== CORE FUNCTIONS =====
       function updateCountdown() {
-        const now = window.performance && window.performance.now ? 
+        const now = window.performance?.now ? 
           performance.timing.navigationStart + performance.now() : 
           new Date().getTime();
         const distance = targetDate - now;
-
-        // Check if countdown has finished
+        
+        // Countdown finished
         if (distance < 0) {
-          if (countdownActive) {
-            countdownFinished();
-          }
+          textElement.textContent = "Zaman geldi!";
           return;
         }
-
+        
+        // Update values
         currentValues = {
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
           hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000)
         };
-
+        
         updateDisplays();
         checkAnimations();
         
+        // Rotate text every 30 seconds
         if (currentValues.seconds % 30 === 0 && lastValues.seconds !== currentValues.seconds) {
           rotateText();
         }
         
         lastValues = {...currentValues};
       }
-
-      function countdownFinished() {
-        countdownActive = false;
-        countdownContainer.style.display = "none";
-        textElement.style.display = "none";
-        finishedMessage.style.display = "block";
-      }
-
+      
       function updateDisplays() {
         document.getElementById("days-display").textContent = formatTime(currentValues.days);
         document.getElementById("hours-display").textContent = formatTime(currentValues.hours);
         document.getElementById("minutes-display").textContent = formatTime(currentValues.minutes);
         document.getElementById("seconds-display").textContent = formatTime(currentValues.seconds);
       }
-
+      
       function checkAnimations() {
         if (currentValues.days < lastValues.days) animateFlip("days");
         if (currentValues.hours < lastValues.hours) animateFlip("hours");
         if (currentValues.minutes < lastValues.minutes) animateFlip("minutes");
         if (currentValues.seconds < lastValues.seconds) animateFlip("seconds");
       }
-
+      
       function animateFlip(unit) {
         const container = document.getElementById(`${unit}-container`);
         
-        // Clear any existing animations
-        const oldCards = container.querySelectorAll(".flip-card");
-        oldCards.forEach(card => card.remove());
+        // Clear existing animations
+        container.querySelectorAll(".flip-card").forEach(card => card.remove());
         
         // Create new animation
         const flipCard = document.createElement("div");
@@ -428,74 +308,62 @@
         flipCard.appendChild(flipElement);
         container.appendChild(flipCard);
         
-        // Play sound
+        // Play sound (with user interaction check)
         try {
-          flipSound.currentTime = 0;
-          flipSound.play().catch(e => console.log("Audio konnte nicht abgespielt werden:", e));
-        } catch (e) {
-          console.log("Audio-Fehler:", e);
+          if (document.body.classList.contains('audio-enabled')) {
+            flipSound.currentTime = 0;
+            flipSound.play().catch(e => console.log("Sound error:", e));
+          }
+        } catch(e) {
+          console.log("Audio error:", e);
         }
         
-        // Clean up after animation
-        setTimeout(() => {
-          flipCard.remove();
-        }, 600);
+        // Cleanup
+        setTimeout(() => flipCard.remove(), 600);
       }
-
+      
       function rotateText() {
         textElement.style.opacity = 0;
         setTimeout(() => {
           currentTextIndex = (currentTextIndex + 1) % texts.length;
           textElement.textContent = texts[currentTextIndex];
           textElement.style.opacity = 1;
-        }, 1000);
+        }, 500);
       }
-
+      
       function formatTime(time) {
         return time < 10 ? `0${time}` : time;
       }
-
-      // Video fallback check
-      const video = document.getElementById("bgVideo");
-      video.addEventListener("error", () => {
-        console.log("Video konnte nicht geladen werden, Fallback-Hintergrund wird verwendet");
-        document.querySelector(".video-fallback").style.zIndex = "-1";
-      });
-
-      // Verhindert Zoomen auf Touch-Geräten
-      document.addEventListener('touchmove', function(e) {
-        if (e.scale !== 1) { e.preventDefault(); }
-      }, { passive: false });
-
-      // Touch-Feedback für Digit-Container
-      document.querySelectorAll('.digit-container').forEach(el => {
-        el.addEventListener('touchstart', function() {
-          this.style.transform = 'scale(0.95)';
-        });
-        el.addEventListener('touchend', function() {
-          this.style.transform = 'scale(1)';
-        });
-      });
-
-      // Initialisierung
+      
+      // ===== DEVICE-SPECIFIC SETUP =====
+      // Enable audio after first interaction
+      function enableAudio() {
+        document.body.classList.add('audio-enabled');
+        document.body.removeEventListener('click', enableAudio);
+        document.body.removeEventListener('touchstart', enableAudio);
+      }
+      
+      document.body.addEventListener('click', enableAudio, { once: true });
+      document.body.addEventListener('touchstart', enableAudio, { once: true });
+      
+      // TV overscan compensation
+      function adjustForTV() {
+        if (window.innerWidth / window.innerHeight > 1.7) { // Widescreen detection
+          document.body.style.zoom = window.innerWidth / screen.width * 0.95;
+        }
+      }
+      
+      // ===== START COUNTDOWN =====
       updateCountdown();
       const countdownInterval = setInterval(updateCountdown, 1000);
-
-      // Globaler Error-Handler
-      window.addEventListener('error', function(e) {
-        console.error('Countdown Fehler:', e);
-        document.getElementById('text-element').textContent = 
-          "Technische Schwierigkeiten - Der Countdown wird bald fortgesetzt";
-        clearInterval(countdownInterval);
-        
-        // Einfachen Countdown als Fallback anzeigen
-        setInterval(function() {
-          const now = new Date().getTime();
-          const distance = targetDate - now;
-          document.getElementById('seconds-display').textContent = 
-            Math.floor((distance % (1000 * 60)) / 1000);
-        }, 1000);
-      });
+      window.addEventListener('resize', adjustForTV);
+      adjustForTV();
+      
+      // Fallback for very old browsers
+      if (!('requestAnimationFrame' in window)) {
+        console.log("Using simplified timer");
+        setInterval(updateCountdown, 1000);
+      }
     });
   </script>
 </body>
