@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ICAZET</title>
+  <style>
+    /* ... [STYLES BLEIBEN UNVERÄNDERT, siehe Original-Code oben] ... */
+  </style>
+</head>
+<body>
+  <noscript>
+    <div style="background: #000; color: #fff; text-align: center; padding: 1em;">
+      Bitte aktiviere JavaScript, um den Countdown anzuzeigen.
+    </div>
+  </noscript>
+
+  <!-- Video-Hintergrund -->
+  <video autoplay muted loop id="bgVideo" aria-hidden="true">
+    <source src="ay.mp4" type="video/mp4" />
+    Your browser does not support HTML5 video.
+  </video>
+  <div class="video-fallback" aria-hidden="true"></div>
+
+  <main role="main">
+    <!-- Countdown -->
+    <section class="flip-clock" id="countdown-container" aria-label="Countdown bis zum Ereignis">
+      <div class="digit-group" aria-label="Tage verbleiben">
+        <div class="digit-container" id="days-container">
+          <div class="current-digit" id="days-display">00</div>
+        </div>
+        <div class="digit-label" aria-hidden="true">gün</div>
+      </div>
+      
+      <div class="digit-group" aria-label="Stunden verbleiben">
+        <div class="digit-container" id="hours-container">
+          <div class="current-digit" id="hours-display">00</div>
+        </div>
+        <div class="digit-label" aria-hidden="true">saat</div>
+      </div>
+      
+      <div class="digit-group" aria-label="Minuten verbleiben">
+        <div class="digit-container" id="minutes-container">
+          <div class="current-digit" id="minutes-display">00</div>
+        </div>
+        <div class="digit-label" aria-hidden="true">dakika</div>
+      </div>
+      
+      <div class="digit-group" aria-label="Sekunden verbleiben">
+        <div class="digit-container" id="seconds-container">
+          <div class="current-digit" id="seconds-display">00</div>
+        </div>
+        <div class="digit-label" aria-hidden="true">saniye</div>
+      </div>
+    </section>
+
+    <!-- Textanzeige -->
+    <div class="text-display" id="text-element" aria-live="polite">
+      Geri sayım başladı!
+    </div>
+
+    <!-- Nach Countdown -->
+    <div class="countdown-finished" id="finished-message" style="display: none;" role="alert">
+      Zaman geldi! Beklenen an şimdi!
+    </div>
+  </main>
+
+  <!-- Sound -->
+  <audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-clock-countdown-bleeps-916.mp3" preload="auto"></audio>
+
+  <script>
+    const targetDate = new Date("2025-06-19T10:00:00").getTime();
+    const flipSound = document.getElementById("flipSound");
+    const textElement = document.getElementById("text-element");
+    const countdownContainer = document.getElementById("countdown-container");
+    const finishedMessage = document.getElementById("finished-message");
+
+    const texts = [
+      "Geri sayım başladı!",
+      "Beklediğimiz gün geliyor!",
+      "Tarihe geçecek bir an için hazır ol.",
+      "Hazırlan, büyük an kapıda!",
+      "Göz açıp kapayıncaya kadar burada olacağız!",
+      "Zaman geçer, anlar kalır.",
+      "Sessizlikten önceki en derin nefes: bu an."
+    ];
+
+    let currentValues = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    let lastValues = { days: -1, hours: -1, minutes: -1, seconds: -1 };
+    let currentTextIndex = 0;
+    let countdownActive = true;
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        if (countdownActive) {
+          clearInterval(countdownInterval);
+          countdownFinished();
+        }
+        return;
+      }
+
+      currentValues = {
+        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000)
+      };
+
+      updateDisplays();
+      checkAnimations();
+
+      if (currentValues.seconds % 30 === 0 && lastValues.seconds !== currentValues.seconds) {
+        rotateText();
+      }
+
+      lastValues = { ...currentValues };
+    }
+
+    function countdownFinished() {
+      countdownActive = false;
+      countdownContainer.style.display = "none";
+      textElement.style.display = "none";
+      finishedMessage.style.display = "block";
+    }
+
+    function updateDisplays() {
+      document.getElementById("days-display").textContent = formatTime(currentValues.days);
+      document.getElementById("hours-display").textContent = formatTime(currentValues.hours);
+      document.getElementById("minutes-display").textContent = formatTime(currentValues.minutes);
+      document.getElementById("seconds-display").textContent = formatTime(currentValues.seconds);
+    }
+
+    function checkAnimations() {
+      if (currentValues.days !== lastValues.days) animateFlip("days");
+      if (currentValues.hours !== lastValues.hours) animateFlip("hours");
+      if (currentValues.minutes !== lastValues.minutes) animateFlip("minutes");
+      if (currentValues.seconds !== lastValues.seconds) animateFlip("seconds");
+    }
+
+    function animateFlip(unit) {
+      const container = document.getElementById(`${unit}-container`);
+      const oldCards = container.querySelectorAll(".flip-card");
+      oldCards.forEach(card => card.remove());
+
+      const flipCard = document.createElement("div");
+      flipCard.className = "flip-card";
+
+      const flipElement = document.createElement("div");
+      flipElement.className = "flip-animation flip";
+      flipElement.textContent = formatTime(lastValues[unit]);
+
+      flipCard.appendChild(flipElement);
+      container.appendChild(flipCard);
+
+      try {
+        flipSound.currentTime = 0;
+        flipSound.play().catch(e => console.log("Audio play failed:", e));
+      } catch (e) {
+        console.log("Audio error:", e);
+      }
+
+      setTimeout(() => {
+        flipCard.remove();
+      }, 600);
+    }
+
+    function rotateText() {
+      textElement.style.opacity = 0;
+      setTimeout(() => {
+        currentTextIndex = (currentTextIndex + 1) % texts.length;
+        textElement.textContent = texts[currentTextIndex];
+        textElement.style.opacity = 1;
+      }, 1000);
+    }
+
+    function formatTime(time) {
+      return time < 10 ? `0${time}` : time;
+    }
+
+    const video = document.getElementById("bgVideo");
+    video.addEventListener("error", () => {
+      console.log("Video failed to load, using fallback background");
+      document.querySelector(".video-fallback").style.zIndex = "-1";
+    });
+
+    updateCountdown();
+    const countdownInterval = setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
