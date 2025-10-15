@@ -38,7 +38,6 @@ body {
   padding: 0;
   overflow: hidden;
 }
-
 .clock-container {
   background: var(--color-container-bg);
   border-radius: 16px;
@@ -81,7 +80,6 @@ body {
 }
 .vakitler-container h1 {
   color: var(--color-text-light);
-  background: none;
   margin-bottom: 1.5vh;
   text-align: center;
   font-size: 1.5em;
@@ -97,7 +95,7 @@ body {
   color: var(--color-text-dark);
   border-radius: 10px;
   font-weight: 600;
-  font-size: 1.12em;
+  font-size: 1.18em;
   margin: 6px 0;
   padding: 0.7em 1em 0.7em 0.8em;
   box-shadow: 0 2px 10px #b871280c;
@@ -108,36 +106,38 @@ body {
 
 .right-side {
   background: none;
-  align-items: flex-start;
-  padding-left: 1vw;
-  padding-right: 1vw;
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
   width: 100%;
 }
-.right-side h1 {
+.right-side .gp-header {
   color: var(--color-accent);
-  font-size: 2.5em;
-  font-weight: bold;
-  margin-bottom: 1.2vh;
-  text-align: left;
+  font-size: 1.6em;
+  font-weight: 700;
+  margin-bottom: 1.1vh;
+  text-align: center;
+  width: 100%;
   letter-spacing: 1px;
+  background: none;
 }
 .programm-tablo {
-  width: 100%;
+  width: 90%;
   background: var(--color-bg);
   border-radius: 16px;
   padding: 2vh 1vw 2vh 1vw;
   box-sizing: border-box;
   margin: 0 auto;
   color: var(--color-text-dark);
-  box-shadow: 0 0 14px 0 #d1d3d450;
+  box-shadow: 0 0 12px 0 #d1d3d450;
 }
 .programm-tablo table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1.02em;
+  font-size: 1.25em; /* Deutlich größer und leserlich! */
 }
 .programm-tablo th, .programm-tablo td {
-  padding: 6px 8px;
+  padding: 10px 8px;
   border: none;
   text-align: left;
 }
@@ -146,7 +146,7 @@ body {
   color: var(--color-text-light);
   font-weight: bold;
   text-align: center;
-  font-size: 1.13em;
+  font-size: 1.15em;
   letter-spacing: 0.03em;
 }
 .programm-tablo tr:nth-child(even) td {
@@ -156,24 +156,25 @@ body {
   color: var(--color-accent);
   font-weight: bold;
   background: #fffefa;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 .programm-tablo tr:last-child td {
   text-align: center;
   background: var(--color-accent);
   color: var(--color-text-light);
   font-weight: bold;
+  font-size: 1.13em;
 }
 
 @media (max-width: 900px) {
   body { flex-direction: column; gap: 0; }
   .split { width: 100vw; height: auto; }
-  .programm-tablo { padding: 1.2vh 1vw; }
+  .programm-tablo { width: 98vw; padding: 1.2vh 1vw; }
 }
 
 @media (max-width: 540px) {
-  .clock-time { font-size: 2.6em;}
+  .clock-time { font-size: 2em;}
   .clock-date { font-size: 1em;}
-  .right-side h1 { font-size: 1.3em;}
-  .programm-tablo table { font-size: 0.95em; }
+  .gp-header { font-size: 1em;}
+  .programm-tablo table { font-size: 1em; }
 }
