@@ -25,45 +25,48 @@ body {
   width: 100vw;
   display: flex;
   flex-direction: row;
+  align-items: stretch;
 }
 
-/* Links deutlich breiter & größer */
 .left-side {
-  flex: 0 0 47vw;
-  min-width: 380px;
-  max-width: 900px;
+  flex: 0 0 44vw;
+  min-width: 340px;
+  max-width: 830px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
-  gap: 3.2vh;
-  padding: 7vh 1.5vw 7vh 2vw;
+  align-items: center;
+  gap: 3vh;
+  padding: 7vh 2vw 7vh 2vw;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 .right-side {
   flex: 1 1 0;
-  min-width: 350px;
+  min-width: 420px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  padding: 3vh 2vw 3vh 1.5vw;
+  padding: 6vh 3vw 6vh 2vw;
+  height: 100vh;
   box-sizing: border-box;
 }
 
 .clock-container, .vakitler-container {
   background: var(--color-container-bg);
-  border-radius: 22px;
-  padding: 3.2vh 3vw;
-  width: 100%;
-  max-width: 590px;
+  border-radius: 20px;
+  padding: 3.4vh 3vw;
+  width: 90%;
+  max-width: 540px;
   box-sizing: border-box;
   text-align: center;
   color: var(--color-text-light);
   box-shadow: 0 2px 18px 0 #e2a16f33;
 }
 .clock-time {
-  font-size: 3.25em;
+  font-size: 3.1em;
   font-family: 'Montserrat', monospace;
   font-weight: 800;
   letter-spacing: 0.11em;
@@ -72,7 +75,7 @@ body {
   text-shadow: 0 2px 12px #b87128bb;
 }
 .clock-date {
-  font-size: 1.33em;
+  font-size: 1.18em;
   color: var(--color-text-light);
   font-weight: 600;
   text-shadow: 0 1px 8px #b8712840;
@@ -82,9 +85,9 @@ body {
 /* Namaz Box */
 .vakitler-container h1 {
   color: var(--color-text-light);
-  margin-bottom: 2vh;
+  margin-bottom: 2.2vh;
   text-align: center;
-  font-size: 1.18em;
+  font-size: 1.16em;
   font-weight: bold;
   letter-spacing: 0.08em;
 }
@@ -95,11 +98,11 @@ body {
   align-items: center;
   background: #fff8edee;
   color: var(--color-text-dark);
-  border-radius: 10px;
+  border-radius: 9px;
   font-weight: 700;
-  font-size: 1.18em;
-  margin: 12px 0;
-  padding: 0.7em 1.2em 0.7em 1.2em;
+  font-size: 1.13em;
+  margin: 10px 0;
+  padding: 0.65em 1.1em 0.65em 1.1em;
   box-shadow: 0 2px 10px #b8712808;
 }
 .vakit div:first-child {
@@ -110,23 +113,23 @@ body {
 /* Rechter Bereich */
 .gp-header {
   color: var(--color-accent);
-  font-size: 1.13em;
+  font-size: 1.18em;
   font-weight: 700;
-  margin-bottom: 2vh;
+  margin-bottom: 2.7vh;
   text-align: center;
   width: 100%;
   letter-spacing: 0.06em;
 }
 
 .programm-tablo {
-  width: 99%;
-  max-width: 1220px;
+  width: 98%;
+  max-width: 1350px;
   background: var(--color-table-bg);
-  border-radius: 15px;
+  border-radius: 17px;
   margin: 0 auto;
   color: var(--color-text-dark);
   box-shadow: 0 0 18px 0 #b1b1b180;
-  padding: 2.4vh 1vw;
+  padding: 2.8vh 1vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -136,11 +139,11 @@ body {
 .programm-tablo table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1.08em;
+  font-size: 1.11em;
 }
 .programm-tablo th, .programm-tablo td {
-  padding: 10px 5px;
-  height: 30px;
+  padding: 13px 7px;
+  height: 32px;
   border: none;
   text-align: left;
 }
@@ -149,7 +152,7 @@ body {
   color: var(--color-text-light);
   font-weight: 800;
   text-align: center;
-  font-size: 1.06em;
+  font-size: 1.05em;
   letter-spacing: 0.04em;
   border-radius: 0 0 0 0;
 }
@@ -169,24 +172,27 @@ body {
 }
 
 /* Responsivität */
-@media (max-width: 1150px) {
-  .left-side { max-width: 44vw; min-width: 245px; }
-  .clock-container, .vakitler-container { max-width: unset; }
-  .programm-tablo { max-width: 98vw; }
+@media (max-width: 1400px) {
+  .left-side { max-width: 46vw; }
+  .clock-container, .vakitler-container { max-width: 440px;}
+  .programm-tablo { max-width: 100vw; }
 }
-
+@media (max-width: 1100px) {
+  .left-side { max-width: 35vw; min-width: 200px; }
+  .right-side { min-width: 240px; padding-left: 1vw; padding-right: 1vw; }
+  .gp-header { margin-bottom: 2vh;}
+}
 @media (max-width: 900px) {
   body { flex-direction: column; }
   .left-side, .right-side { width: 99vw; max-width: unset; align-items: center;}
-  .clock-container, .vakitler-container { width: 98vw; }
-  .programm-tablo { width: 97vw; max-width: unset;}
+  .clock-container, .vakitler-container { width: 99vw; max-width: unset;}
+  .programm-tablo { width: 99vw; max-width: unset; }
 }
-
 @media (max-width: 540px) {
-  .clock-time { font-size: 1.22em;}
+  .clock-time { font-size: 1.18em;}
   .clock-date { font-size: 1em;}
   .gp-header { font-size: 1em;}
-  .programm-tablo table { font-size: 0.85em; }
+  .programm-tablo table { font-size: 0.84em; }
   .left-side, .right-side { padding: 1vh 0.5vw;}
-  .clock-container, .vakitler-container, .programm-tablo { padding: 1vh 1vw;}
+  .clock-container, .vakitler-container, .programm-tablo { padding: 1vh 0.8vw;}
 }
