@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Namaz Vakitleri</title>
+<title>Dijital Saat & Namaz Vakitleri</title>
 <style>
   body {
     font-family: 'Montserrat', sans-serif;
@@ -12,67 +12,127 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    padding: 40px 20px;
     margin: 0;
   }
-  h1 {
+  .clock-container {
+    background: rgba(36, 43, 69, 0.85);
+    border-radius: 20px;
+    padding: 30px 50px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(46, 57, 94, 0.35);
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 40px;
+  }
+  .clock-time {
+    font-size: 80px;
+    font-family: 'Montserrat', monospace;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+    color: #38d6ae;
+    text-shadow: 0 3px 12px #0b3d352e;
+  }
+  .clock-date {
+    font-size: 24px;
+    color: #ffe357;
+    letter-spacing: 1.2px;
+    text-shadow: 0 2px 8px #524c22a0;
+  }
+  .vakitler-container {
+    background: rgba(36, 43, 69, 0.85);
+    padding: 25px 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(46, 57, 94, 0.3);
+    max-width: 400px;
+    width: 100%;
+  }
+  .vakitler-container h1 {
+    color: #38d6ae;
     margin-bottom: 20px;
+    text-align: center;
   }
   .vakit {
-    background: rgba(36, 43, 69, 0.75);
-    padding: 20px;
-    border-radius: 15px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px 20px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-size: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
   }
-  .vakit h2 {
-    margin-top: 0;
-    color: #38d6ae;
-  }
-  .zeiten {
-    font-size: 24px;
-    margin-top: 10px;
+  .vakit-name {
+    font-weight: 700;
   }
 </style>
 </head>
 <body>
-<h1>İşte Günlük Namaz Vakitleri</h1>
-<div class="vakit">
-  <h2>İmsak</h2>
-  <div class="zeiten" id="imsak">Yükleniyor...</div>
 
-  <h2>Güneş</h2>
-  <div class="zeiten" id="gunes">Yükleniyor...</div>
+<div class="clock-container">
+  <div class="clock-time" id="clock">--:--:--</div>
+  <div class="clock-date" id="date">------</div>
+</div>
 
-  <h2>Öğle</h2>
-  <div class="zeiten" id="oglen">Yükleniyor...</div>
-
-  <h2>İkindi</h2>
-  <div class="zeiten" id="ikindi">Yükleniyor...</div>
-
-  <h2>Akşam</h2>
-  <div class="zeiten" id="aksam">Yükleniyor...</div>
-
-  <h2>Yatsı</h2>
-  <div class="zeiten" id="yatsi">Yükleniyor...</div>
+<div class="vakitler-container">
+  <h1>Namaz Vakitleri</h1>
+  <div class="vakit"><div class="vakit-name">İmsak</div><div id="imsak">Yükleniyor...</div></div>
+  <div class="vakit"><div class="vakit-name">Güneş</div><div id="gunes">Yükleniyor...</div></div>
+  <div class="vakit"><div class="vakit-name">Öğle</div><div id="oglen">Yükleniyor...</div></div>
+  <div class="vakit"><div class="vakit-name">İkindi</div><div id="ikindi">Yükleniyor...</div></div>
+  <div class="vakit"><div class="vakit-name">Akşam</div><div id="aksam">Yükleniyor...</div></div>
+  <div class="vakit"><div class="vakit-name">Yatsı</div><div id="yatsi">Yükleniyor...</div></div>
 </div>
 
 <script>
+  // Uhr mit Datum für Senegal (Africa/Dakar) aktualisieren
+  function updateClock() {
+    const now = new Date();
+    const options = {
+      timeZone: 'Africa/Dakar',
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    };
+
+    const weekdayNames = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+    const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+
+    const dakarDate = new Date(now.toLocaleString('en-US', {timeZone: 'Africa/Dakar'}));
+    const day = weekdayNames[dakarDate.getDay()];
+    const date = dakarDate.getDate();
+    const month = monthNames[dakarDate.getMonth()];
+    const year = dakarDate.getFullYear();
+
+    document.getElementById('clock').textContent = dakarDate.toLocaleTimeString('tr-TR', options);
+    document.getElementById('date').textContent = `${day}, ${date} ${month} ${year}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Gebetszeiten aus JSON Datei laden und für den aktuellen Tag anzeigen
   fetch('gebetszeiten.json')
     .then(response => response.json())
     .then(data => {
-      document.getElementById('imsak').textContent = data.imsak;
-      document.getElementById('gunes').textContent = data.gunes;
-      document.getElementById('oglen').textContent = data.oglen;
-      document.getElementById('ikindi').textContent = data.ikindi;
-      document.getElementById('aksam').textContent = data.aksam;
-      document.getElementById('yatsi').textContent = data.yatsi;
+      const today = new Date().toISOString().slice(0,10);
+      const heute = data.find(tag => tag.datum === today);
+      if (heute) {
+        document.getElementById('imsak').textContent = heute.imsak;
+        document.getElementById('gunes').textContent = heute.gunes;
+        document.getElementById('oglen').textContent = heute.oglen;
+        document.getElementById('ikindi').textContent = heute.ikindi;
+        document.getElementById('aksam').textContent = heute.aksam;
+        document.getElementById('yatsi').textContent = heute.yatsi;
+      } else {
+        const vakitFelder = ['imsak','gunes','oglen','ikindi','aksam','yatsi'];
+        vakitFelder.forEach(id => document.getElementById(id).textContent = "Mevcut değil");
+      }
     })
-    .catch(error => {
-      console.error('Fehler beim Laden der Gebetszeiten:', error);
+    .catch(err => {
+      console.error('Gebetszeiten Laden Fehler:', err);
     });
 </script>
+
 </body>
 </html>
