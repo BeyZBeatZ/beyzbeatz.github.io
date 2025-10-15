@@ -1,38 +1,37 @@
-/* Hintergrundvideo */
-#bgVideo {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1;
-}
-
-/* Overlay für Countdown und Sätze */
-.overlay {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100vw;
-  height: 50vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-/* Flip Clock */
-.flip-clock {
-  display: flex;
-  gap: 20px;
-}
-
-/* Satzanzeige */
-.sentence {
-  margin-top: 20px;
-  color: white;
-  font-size: 1.5rem;
-  text-align: center;
-}
+<style>
+  .programm-tablo table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(14px, 1vw, 22px);
+    background: #252830;
+    color: #fff;
+    margin-top: 10px;
+  }
+  .programm-tablo th, .programm-tablo td {
+    border: none;
+    padding: 8px 6px;
+    text-align: left;
+  }
+  .programm-tablo th {
+    background: #253e7b;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.1em;
+  }
+  .programm-tablo tr:nth-child(even) td {
+    background: rgba(255,255,255,0.07);
+  }
+  .programm-tablo .vurgulu td {
+    color: #253e7b;
+    font-weight: bold;
+    background: #e2e6f7;
+  }
+  .programm-tablo tr:last-child td, .programm-tablo tr:last-child {
+    text-align: center;
+    font-size: 1.1em;
+    background: #253e7b;
+    color: #fff;
+    font-weight: bold;
+  }
+</style>
