@@ -5,7 +5,7 @@
   --color-table-bg: #D1D3D4;
   --color-table-even: #C0C7CC;
   --color-accent: #5D866C;
-  --color-accent2: #86B0BD;
+  --color-button: #E2A16F;
   --color-text-dark: #25323A;
   --color-text-light: #FFF;
 }
@@ -27,46 +27,43 @@ body {
   flex-direction: row;
 }
 
-.split {
-  flex: 1 1 0;
+/* Seitenbereiche */
+.left-side {
+  flex: 0 0 36vw;
+  min-width: 370px;
+  max-width: 640px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
-  min-width: 0;
-  min-height: 0;
-  padding: 2vh 0 2vh 0;
-  box-sizing: border-box;
-}
-
-.left-side {
+  align-items: flex-end;
   gap: 2vh;
-  padding-right: 1vw;
+  padding: 3vh 1vw;
 }
 
 .right-side {
-  gap: 2vh;
-  padding-left: 1vw;
+  flex: 1 1 0;
+  min-width: 500px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-start;
+  align-items: center;
+  padding: 3vh 3vw 3vh 3vw;
+  height: 100vh;
 }
 
 .clock-container, .vakitler-container {
   background: var(--color-container-bg);
   border-radius: 18px;
-  padding: 2.5vh 2vw 2.5vh 2vw;
+  padding: 2.2vh 2vw 2.2vh 2vw;
   width: 100%;
-  max-width: 440px;
+  max-width: 410px;
   box-sizing: border-box;
   text-align: center;
   color: var(--color-text-light);
   box-shadow: 0 2px 16px 0 #e2a16f33;
 }
 .clock-time {
-  font-size: 2.8em;
+  font-size: 2.7em;
   font-family: 'Montserrat', monospace;
   font-weight: bold;
   letter-spacing: 0.13em;
@@ -82,12 +79,13 @@ body {
   margin-bottom: 0;
 }
 
+/* Namaz Box */
 .vakitler-container h1 {
   color: var(--color-text-light);
   background: none;
   margin-bottom: 2vh;
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1.15em;
   font-weight: bold;
   letter-spacing: 0.05em;
 }
@@ -98,11 +96,11 @@ body {
   align-items: center;
   background: #fff8edee;
   color: var(--color-text-dark);
-  border-radius: 9px;
+  border-radius: 8px;
   font-weight: 600;
-  font-size: 1.10em;
+  font-size: 1.05em;
   margin: 8px 0;
-  padding: 0.60em 1em 0.60em 1em;
+  padding: 0.6em 1em 0.6em 1em;
   box-shadow: 0 2px 10px #b871280c;
 }
 .vakit div:first-child {
@@ -110,31 +108,34 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* RECHTS */
+
+/* Günlük Program */
 .gp-header {
   color: var(--color-accent);
-  font-size: 1.1em;
+  font-size: 1.18em;
   font-weight: 700;
-  margin-bottom: 0.8vh;
+  margin-bottom: 1.5vh;
   text-align: center;
-  width: 460px;
-  letter-spacing: 0.04em;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  letter-spacing: 0.05em;
 }
 
 .programm-tablo {
-  width: 460px;
+  width: 100%;
+  max-width: 1050px;
   background: var(--color-table-bg);
   border-radius: 15px;
-  padding: 1.5vh 1vw 1.5vh 1vw;
+  padding: 2.5vh 2vw 2.5vh 2vw;
   box-sizing: border-box;
-  margin: 0 auto;
   color: var(--color-text-dark);
-  box-shadow: 0 0 14px 0 #b1b1b180;
+  box-shadow: 0 0 18px 0 #b1b1b180;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 1vh;
+  height: calc(100vh - 8vh - 2em);
+  min-height: 560px;
+  overflow-y: auto;
 }
 .programm-tablo table {
   width: 100%;
@@ -142,7 +143,7 @@ body {
   font-size: 1.18em;
 }
 .programm-tablo th, .programm-tablo td {
-  padding: 10px 7px;
+  padding: 12px 10px;
   border: none;
   text-align: left;
 }
@@ -151,8 +152,8 @@ body {
   color: var(--color-text-light);
   font-weight: bold;
   text-align: center;
-  font-size: 1.1em;
-  letter-spacing: 0.03em;
+  font-size: 1.16em;
+  letter-spacing: 0.04em;
 }
 .programm-tablo tr:nth-child(even) td {
   background: var(--color-table-even);
@@ -167,17 +168,31 @@ body {
   background: var(--color-table-header);
   color: var(--color-text-light);
   font-weight: bold;
-  font-size: 1em;
+  font-size: 1.13em;
+}
+
+@media (max-width: 1100px) {
+  .programm-tablo {
+    padding: 2vh 0.5vw;
+    max-width: 99vw;
+    height: calc(100vh - 7vh - 2em);
+    min-height: 460px;
+  }
+  .right-side {
+    min-width: 320px;
+    padding: 2vh 0vw 2vh 0vw;
+  }
 }
 
 @media (max-width: 900px) {
   body { flex-direction: column; }
-  .left-side, .right-side, .gp-header, .programm-tablo { width: 99vw; max-width: unset; }
-  .clock-container, .vakitler-container { max-width: unset; width: 99vw;}
-  .programm-tablo { padding: 1.2vh 0.5vw; }
+  .left-side, .right-side { width: 99vw; max-width: 99vw; padding: 2vh 2vw;}
+  .clock-container, .vakitler-container { width: 99vw; max-width: unset;}
+  .programm-tablo { width: 99vw; max-width: unset;}
 }
+
 @media (max-width: 540px) {
-  .clock-time { font-size: 2em;}
+  .clock-time { font-size: 1.4em;}
   .clock-date { font-size: 1em;}
   .gp-header { font-size: 1em;}
   .programm-tablo table { font-size: 1em; }
