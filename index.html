@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Dijital Saat & Günlük Program</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #252830;
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #fff;
+  }
+  body {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    gap: 2vw;
+  }
+  .left-side, .right-side {
+    flex: 1 1 0;
+    padding: 3vh 2vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    min-height: 0;
+    min-width: 0;
+    justify-content: center;
+  }
+  .clock-container {
+    background: rgba(36, 43, 69, 0.85);
+    border-radius: 20px;
+    padding: 2vw 2vw 2vw 2vw;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(46, 57, 94, 0.35);
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 4vh;
+    min-height: 0;
+  }
+  .clock-time {
+    font-size: clamp(48px, 6vw, 80px);
+    font-family: 'Montserrat', monospace;
+    letter-spacing: 0.2vw;
+    margin-bottom: 1vh;
+    color: #38d6ae;
+    text-shadow: 0 3px 12px #0b3d352e;
+    line-height: 1;
+  }
+  .clock-date {
+    font-size: clamp(24px, 2vw, 32px);
+    color: #ffe357;
+    letter-spacing: 0.1vw;
+    text-shadow: 0 2px 8px #524c22a0;
+    margin-bottom: 1vh;
+  }
+  .vakitler-container {
+    background: rgba(36, 43, 69, 0.85);
+    padding: 2vw 2vw;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(46, 57, 94, 0.3);
+    width: 100%;
+    max-width: 500px;
+    min-height: 0;
+  }
+  .vakitler-container h1 {
+    color: #38d6ae;
+    margin-bottom: 3vh;
+    text-align: center;
+    font-size: clamp(24px, 2vw, 32px);
+    font-weight: bold;
+  }
+  .vakit {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1vh 1vw;
+    border-radius: 12px;
+    margin-bottom: 1.2vh;
+    font-size: clamp(18px, 1.4vw, 24px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    font-weight: 600;
+  }
+  /* Tagesplan Tabelle */
+  .programm-tablo table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(14px, 1vw, 22px);
+    background: #252830;
+    color: #fff;
+    margin-top: 10px;
+  }
+  .programm-tablo th, .programm-tablo td {
+    border: none;
+    padding: 8px 6px;
+    text-align: left;
+  }
+  .programm-tablo th {
+    background: #253e7b;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.1em;
+  }
+  .programm-tablo tr:nth-child(even) td {
+    background: rgba(255,255,255,0.07);
+  }
+  .programm-tablo .vurgulu td {
+    color: #253e7b;
+    font-weight: bold;
+    background: #e2e6f7;
+  }
+  .programm-tablo tr:last-child td, .programm-tablo tr:last-child {
+    text-align: center;
+    font-size: 1.1em;
+    background: #253e7b;
+    color: #fff;
+    font-weight: bold;
+  }
+  .right-side h1 {
+    font-size: clamp(32px, 2.2vw, 44px);
+    color: #38d6ae;
+    text-align: center;
+    margin-bottom: 2vh;
+    font-weight: bold;
+  }
+  @media (max-width: 900px) {
+    body { flex-direction: column; overflow-y: auto; gap: 0; }
+    .left-side, .right-side { width: 100%; min-height: 0; }
+    .clock-container, .vakitler-container, .programm-tablo table { max-width: 90vw;}
+  }
+</style>
+</head>
+<body>
+
+<div class="left-side">
+  <div class="clock-container">
+    <div class="clock-time" id="clock">--:--:--</div>
+    <div class="clock-date" id="date">------</div>
+  </div>
+  <div class="vakitler-container">
+    <h1>Namaz Vakitleri</h1>
+    <div class="vakit"><div>İmsak</div><div id="imsak">Yükleniyor...</div></div>
+    <div class="vakit"><div>Güneş</div><div id="gunes">Yükleniyor...</div></div>
+    <div class="vakit"><div>Öğle</div><div id="oglen">Yükleniyor...</div></div>
+    <div class="vakit"><div>İkindi</div><div id="ikindi">Yükleniyor...</div></div>
+    <div class="vakit"><div>Akşam</div><div id="aksam">Yükleniyor...</div></div>
+    <div class="vakit"><div>Yatsı</div><div id="yatsi">Yükleniyor...</div></div>
+  </div>
+</div>
+
+<div class="right-side">
+  <h1>Günlük Program</h1>
+  <div class="programm-tablo">
+    <table>
+      <thead>
+        <tr>
+          <th>Başlangıç</th>
+          <th>Bitiş</th>
+          <th>Süre</th>
+          <th>Program</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>05:00</td><td>05:45</td><td>00:45</td><td>Kalkış ve Teheccüd Namazı</td></tr>
+        <tr><td>05:45</td><td>06:15</td><td>00:30</td><td>Vazife</td></tr>
+        <tr class="vurgulu"><td>06:15</td><td>06:45</td><td>00:30</td><td>Sabah Namazı ve Hatmi Şerif</td></tr>
+        <tr><td>06:45</td><td>07:15</td><td>00:30</td><td>Temizlik</td></tr>
+        <tr><td>07:15</td><td>08:00</td><td>00:45</td><td>Kahvaltı ve Derse Hazırlık</td></tr>
+        <tr><td>08:00</td><td>09:30</td><td>01:30</td><td>1. Ders (Kıraat)</td></tr>
+        <tr><td>09:30</td><td>10:00</td><td>00:30</td><td>Teneffüs ve Duha Namazı</td></tr>
+        <tr><td>10:00</td><td>11:30</td><td>01:30</td><td>2. Ders (Metinler)</td></tr>
+        <tr><td>11:30</td><td>12:00</td><td>00:30</td><td>Teneffüs</td></tr>
+        <tr><td>12:00</td><td>13:00</td><td>01:00</td><td>3. Ders (Pratik Türkçe)</td></tr>
+        <tr><td>13:00</td><td>13:55</td><td>00:55</td><td>Öğle Yemeği ve Namaza Hazırlık</td></tr>
+        <tr class="vurgulu"><td>13:55</td><td>14:15</td><td>00:20</td><td>Öğle Namazı</td></tr>
+        <tr><td>14:15</td><td>16:15</td><td>02:00</td><td>4. Ders (Metinler Müzakere 45 dk ve Takrir 75 dk)</td></tr>
+        <tr><td>16:15</td><td>16:45</td><td>00:30</td><td>Namaza Hazırlık</td></tr>
+        <tr class="vurgulu"><td>16:45</td><td>17:00</td><td>00:15</td><td>İkindi Namazı</td></tr>
+        <tr><td>17:00</td><td>18:45</td><td>01:45</td><td>5. Ders (Kuduri Şerif)</td></tr>
+        <tr><td>18:45</td><td>19:00</td><td>00:15</td><td>Namaza Hazırlık</td></tr>
+        <tr class="vurgulu"><td>19:00</td><td>19:15</td><td>00:15</td><td>Akşam Namazı</td></tr>
+        <tr><td>19:15</td><td>20:10</td><td>00:55</td><td>Akşam Yemeği ve Namaza Hazırlık</td></tr>
+        <tr class="vurgulu"><td>20:10</td><td>20:45</td><td>00:35</td><td>Yatsı Namazı, Hatmi Şerif ve Takvim</td></tr>
+        <tr><td>20:45</td><td>22:45</td><td>02:00</td><td>6. Ders (Kuduri Şerif Müzakere 45 dk ve Takrir 60 dk)</td></tr>
+        <tr><td>22:45</td><td>23:00</td><td>00:15</td><td>Serbest Çalışma</td></tr>
+        <tr class="vurgulu"><td>23:00</td><td>23:00</td><td></td><td>İstirahat</td></tr>
+        <tr class="vurgulu"><td colspan="4">Mecburi istirahat</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Uhr mit Datum für Senegal (Africa/Dakar) aktualisieren
+  function updateClock() {
+    const now = new Date();
+    const options = {
+      timeZone: 'Africa/Dakar',
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    };
+    const weekdayNames = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+    const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+    const dakarDate = new Date(now.toLocaleString('en-US', {timeZone: 'Africa/Dakar'}));
+    const day = weekdayNames[dakarDate.getDay()];
+    const date = dakarDate.getDate();
+    const month = monthNames[dakarDate.getMonth()];
+    const year = dakarDate.getFullYear();
+    document.getElementById('clock').textContent = dakarDate.toLocaleTimeString('tr-TR', options);
+    document.getElementById('date').textContent = `${day}, ${date} ${month} ${year}`;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Gebetszeiten aus JSON Datei laden und für den aktuellen Tag anzeigen
+  function loadGebetszeiten() {
+    fetch('gebetszeiten.json')
+      .then(response => response.json())
+      .then(data => {
+        const today = new Date().toISOString().slice(0,10);
+        const heute = data.find(tag => tag.datum === today);
+        if (heute) {
+          document.getElementById('imsak').textContent = heute.imsak;
+          document.getElementById('gunes').textContent = heute.gunes;
+          document.getElementById('oglen').textContent = heute.oglen;
+          document.getElementById('ikindi').textContent = heute.ikindi;
+          document.getElementById('aksam').textContent = heute.aksam;
+          document.getElementById('yatsi').textContent = heute.yatsi;
+        } else {
+          const vakitFelder = ['imsak','gunes','oglen','ikindi','aksam','yatsi'];
+          vakitFelder.forEach(id => document.getElementById(id).textContent = "Mevcut değil");
+        }
+      })
+      .catch(err => {
+        console.error('Gebetszeiten Laden Fehler:', err);
+      });
+  }
+  loadGebetszeiten();
+  setInterval(loadGebetszeiten, 60000);
+</script>
+
+</body>
+</html>
