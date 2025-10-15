@@ -1,126 +1,78 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Dijital Saat – Senegal Saati</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Fonts für modernes Design -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
-    body {
-      height: 100vh;
-      width: 100vw;
-      font-family: 'Montserrat', Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      background: #252830;
-    }
-    video.bg-video {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100vw;
-      min-height: 100vh;
-      width: auto;
-      height: auto;
-      z-index: 0;
-      object-fit: cover;
-      opacity: 0.32;
-      filter: blur(2px) brightness(0.7);
-    }
-    .clock-container {
-      position: relative;
-      z-index: 2;
-      background: rgba(36, 43, 69, 0.75);
-      padding: 44px 62px;
-      border-radius: 28px;
-      box-shadow: 0 8px 64px rgba(46, 57, 94, 0.25);
-      text-align: center;
-      backdrop-filter: blur(3px);
-      border: 2px solid #38d6ae;
-      max-width: 98vw;
-    }
-    .clock-title {
-      font-size: 30px;
-      color: #38d6ae;
-      margin-bottom: 20px;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 8px #1113;
-    }
-    .clock-time {
-      font-size: 70px;
-      color: #fff;
-      text-shadow: 0 4px 18px #0a283850;
-      font-family: 'Montserrat', monospace;
-      margin: 0 0 16px 0;
-      line-height: 1.3;
-      letter-spacing: 4px;
-    }
-    .clock-date {
-      color: #ffe357;
-      font-size: 26px;
-      font-family: 'Montserrat', Arial, sans-serif;
-      margin-top: 6px;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 10px #524c22a0;
-    }
-    .clock-label {
-      color: #b6ebf2;
-      font-size: 21px;
-      margin-top: 22px;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Namaz Vakitleri</title>
+<style>
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #252830;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  h1 {
+    margin-bottom: 20px;
+  }
+  .vakit {
+    background: rgba(36, 43, 69, 0.75);
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  .vakit h2 {
+    margin-top: 0;
+    color: #38d6ae;
+  }
+  .zeiten {
+    font-size: 24px;
+    margin-top: 10px;
+  }
+</style>
 </head>
 <body>
-  <video class="bg-video" autoplay loop muted playsinline>
-    <source src="https://drive.google.com/file/d/1CbfYJGHEHnkJQVK9tVpa7ya9PHXs21kD/view?usp=drive_link" type="video/mp4">
-    Tarayıcınız arka plan videosunu desteklemiyor.
-  </video>
-  <div class="clock-container">
-    <div class="clock-title">Dijital Saat – Senegal Saati</div>
-    <div class="clock-label">Şu anki Dakar saati:</div>
-    <div class="clock-time" id="clock">--:--:--</div>
-    <div class="clock-date" id="date">-------</div>
-  </div>
-  <script>
-    function updateClock() {
-      const now = new Date();
-      // Senegal/Dakar Timezone
-      const timeOptions = {
-        timeZone: 'Africa/Dakar',
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      };
-      const weekdayNames = [
-        "Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"
-      ];
-      const monthNames = [
-        "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
-        "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
-      ];
-      // Datum gezielt in türkischer Sprache
-      const dakarDate = new Date(now.toLocaleString('en-US', {timeZone: 'Africa/Dakar'}));
-      const day = weekdayNames[dakarDate.getDay()];
-      const date = dakarDate.getDate();
-      const month = monthNames[dakarDate.getMonth()];
-      const year = dakarDate.getFullYear();
-      document.getElementById('clock').textContent = dakarDate.toLocaleTimeString('tr-TR', timeOptions);
-      document.getElementById('date').textContent = day + ", " + date + " " + month + " " + year;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-  </script>
+<h1>İşte Günlük Namaz Vakitleri</h1>
+<div class="vakit">
+  <h2>İmsak</h2>
+  <div class="zeiten" id="imsak">Yükleniyor...</div>
+
+  <h2>Güneş</h2>
+  <div class="zeiten" id="gunes">Yükleniyor...</div>
+
+  <h2>Öğle</h2>
+  <div class="zeiten" id="oglen">Yükleniyor...</div>
+
+  <h2>İkindi</h2>
+  <div class="zeiten" id="ikindi">Yükleniyor...</div>
+
+  <h2>Akşam</h2>
+  <div class="zeiten" id="aksam">Yükleniyor...</div>
+
+  <h2>Yatsı</h2>
+  <div class="zeiten" id="yatsi">Yükleniyor...</div>
+</div>
+
+<script>
+  fetch('gebetszeiten.json')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('imsak').textContent = data.imsak;
+      document.getElementById('gunes').textContent = data.gunes;
+      document.getElementById('oglen').textContent = data.oglen;
+      document.getElementById('ikindi').textContent = data.ikindi;
+      document.getElementById('aksam').textContent = data.aksam;
+      document.getElementById('yatsi').textContent = data.yatsi;
+    })
+    .catch(error => {
+      console.error('Fehler beim Laden der Gebetszeiten:', error);
+    });
+</script>
 </body>
 </html>
