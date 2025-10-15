@@ -1,12 +1,13 @@
 :root {
   --color-bg: #FFF0DD;
   --color-container-bg: #E2A16F;
-  --color-table-header: #E2A16F;
-  --color-accent: #86B0BD;
+  --color-table-header: #5D866C;
+  --color-table-bg: #D1D3D4;
+  --color-table-even: #C0C7CC;
+  --color-accent: #5D866C;
+  --color-accent2: #86B0BD;
   --color-text-dark: #25323a;
   --color-text-light: #FFF;
-  --color-table-even: #fff7eb;
-  --color-table-highlight: #D1D3D4;
 }
 
 html, body {
@@ -86,7 +87,6 @@ body {
   font-weight: bold;
   letter-spacing: 0.05em;
 }
-
 .vakit {
   display: flex;
   justify-content: space-between;
@@ -113,40 +113,40 @@ body {
 }
 .right-side .gp-header {
   color: var(--color-accent);
-  font-size: 1.6em;
+  font-size: 1.3em;
   font-weight: 700;
   margin-bottom: 1.1vh;
   text-align: center;
   width: 100%;
-  letter-spacing: 1px;
   background: none;
+  letter-spacing: 1px;
 }
 .programm-tablo {
   width: 90%;
-  background: var(--color-bg);
+  background: var(--color-table-bg);
   border-radius: 16px;
   padding: 2vh 1vw 2vh 1vw;
   box-sizing: border-box;
   margin: 0 auto;
   color: var(--color-text-dark);
-  box-shadow: 0 0 12px 0 #d1d3d450;
+  box-shadow: 0 0 12px 0 #b1b1b1a0;
 }
 .programm-tablo table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1.25em; /* Deutlich größer und leserlich! */
+  font-size: 1.50em; /* Noch größer und leserlich */
 }
 .programm-tablo th, .programm-tablo td {
-  padding: 10px 8px;
+  padding: 12px 10px;
   border: none;
   text-align: left;
 }
 .programm-tablo th {
-  background: var(--color-accent);
+  background: var(--color-table-header);
   color: var(--color-text-light);
   font-weight: bold;
   text-align: center;
-  font-size: 1.15em;
+  font-size: 1.10em;
   letter-spacing: 0.03em;
 }
 .programm-tablo tr:nth-child(even) td {
@@ -160,7 +160,7 @@ body {
 }
 .programm-tablo tr:last-child td {
   text-align: center;
-  background: var(--color-accent);
+  background: var(--color-table-header);
   color: var(--color-text-light);
   font-weight: bold;
   font-size: 1.13em;
@@ -173,8 +173,8 @@ body {
 }
 
 @media (max-width: 540px) {
-  .clock-time { font-size: 2em;}
+  .clock-time { font-size: 1.9em;}
   .clock-date { font-size: 1em;}
   .gp-header { font-size: 1em;}
-  .programm-tablo table { font-size: 1em; }
+  .programm-tablo table { font-size: 1.1em; }
 }
