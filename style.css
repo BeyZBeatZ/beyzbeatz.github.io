@@ -10,8 +10,8 @@
 }
 
 html, body {
-  height: 100%;
-  width: 100%;
+  min-height: 100vh;
+  width: 100vw;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -19,6 +19,7 @@ html, body {
   font-family: 'Montserrat', Arial, sans-serif;
   color: var(--color-text-dark);
 }
+
 body {
   min-height: 100vh;
   width: 100vw;
@@ -26,122 +27,131 @@ body {
   flex-direction: row;
 }
 
+/* Links deutlich breiter & größer */
 .left-side {
-  flex: 0 0 34vw;
-  min-width: 290px;
-  max-width: 570px;
+  flex: 0 0 47vw;
+  min-width: 380px;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  gap: 2vh;
-  padding: 2vh 1vw 2vh 1.5vw;
+  gap: 3.2vh;
+  padding: 7vh 1.5vw 7vh 2vw;
 }
+
 .right-side {
   flex: 1 1 0;
-  min-width: 300px;
+  min-width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 2vh 1.8vw 2vh 1.5vw;
-  height: 100vh;
+  padding: 3vh 2vw 3vh 1.5vw;
   box-sizing: border-box;
 }
 
 .clock-container, .vakitler-container {
   background: var(--color-container-bg);
-  border-radius: 18px;
-  padding: 2.2vh 3vw;
+  border-radius: 22px;
+  padding: 3.2vh 3vw;
   width: 100%;
-  max-width: 410px;
+  max-width: 590px;
   box-sizing: border-box;
   text-align: center;
   color: var(--color-text-light);
-  box-shadow: 0 2px 16px 0 #e2a16f33;
+  box-shadow: 0 2px 18px 0 #e2a16f33;
 }
 .clock-time {
-  font-size: 2.6em;
+  font-size: 3.25em;
   font-family: 'Montserrat', monospace;
-  font-weight: bold;
-  letter-spacing: 0.13em;
-  margin-bottom: 1vh;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  margin-bottom: 1.3vh;
   color: var(--color-text-light);
   text-shadow: 0 2px 12px #b87128bb;
 }
 .clock-date {
-  font-size: 1.1em;
+  font-size: 1.33em;
   color: var(--color-text-light);
-  font-weight: 500;
+  font-weight: 600;
   text-shadow: 0 1px 8px #b8712840;
   margin-bottom: 0;
 }
+
+/* Namaz Box */
 .vakitler-container h1 {
   color: var(--color-text-light);
   margin-bottom: 2vh;
   text-align: center;
-  font-size: 1.1em;
+  font-size: 1.18em;
   font-weight: bold;
+  letter-spacing: 0.08em;
 }
+
 .vakit {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #fff8edee;
   color: var(--color-text-dark);
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1em;
-  margin: 8px 0;
-  padding: 0.45em 1em 0.45em 1em;
-  box-shadow: 0 2px 10px #b871280c;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1.18em;
+  margin: 12px 0;
+  padding: 0.7em 1.2em 0.7em 1.2em;
+  box-shadow: 0 2px 10px #b8712808;
 }
 .vakit div:first-child {
-  font-weight: 700;
+  font-weight: 750;
+  letter-spacing: 0.02em;
 }
 
 /* Rechter Bereich */
 .gp-header {
   color: var(--color-accent);
-  font-size: 1.05em;
+  font-size: 1.13em;
   font-weight: 700;
-  margin-bottom: 1vh;
+  margin-bottom: 2vh;
   text-align: center;
   width: 100%;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
+
 .programm-tablo {
-  width: 100%;
-  max-width: 1280px;
+  width: 99%;
+  max-width: 1220px;
   background: var(--color-table-bg);
   border-radius: 15px;
   margin: 0 auto;
   color: var(--color-text-dark);
-  box-shadow: 0 0 14px 0 #b1b1b180;
+  box-shadow: 0 0 18px 0 #b1b1b180;
+  padding: 2.4vh 1vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5vh 2vw;
-  height: auto;
 }
+
+/* Tabellen-Anzeige groß und klar */
 .programm-tablo table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1em;
+  font-size: 1.08em;
 }
 .programm-tablo th, .programm-tablo td {
-  padding: 8px 5px;
-  height: 28px;
+  padding: 10px 5px;
+  height: 30px;
   border: none;
   text-align: left;
 }
 .programm-tablo th {
   background: var(--color-table-header);
   color: var(--color-text-light);
-  font-weight: bold;
+  font-weight: 800;
   text-align: center;
-  font-size: 1em;
-  letter-spacing: 0.03em;
+  font-size: 1.06em;
+  letter-spacing: 0.04em;
+  border-radius: 0 0 0 0;
 }
 .programm-tablo tr:nth-child(even) td {
   background: var(--color-table-even);
@@ -158,23 +168,25 @@ body {
   font-weight: bold;
 }
 
-@media (max-width: 1100px) {
-  .left-side { max-width: 370px; min-width: 160px; }
-  .programm-tablo { max-width: 98vw; }
+/* Responsivität */
+@media (max-width: 1150px) {
+  .left-side { max-width: 44vw; min-width: 245px; }
   .clock-container, .vakitler-container { max-width: unset; }
+  .programm-tablo { max-width: 98vw; }
 }
+
 @media (max-width: 900px) {
   body { flex-direction: column; }
-  .left-side, .right-side { width: 98vw; max-width: unset; min-width: 0; align-items: center;}
-  .clock-container, .vakitler-container { width: 96vw; max-width: unset;}
+  .left-side, .right-side { width: 99vw; max-width: unset; align-items: center;}
+  .clock-container, .vakitler-container { width: 98vw; }
   .programm-tablo { width: 97vw; max-width: unset;}
 }
 
-@media (max-width: 600px) {
-  .clock-time   { font-size: 1.4em;}
-  .clock-date   { font-size: 1em;}
-  .gp-header    { font-size: 1em;}
-  .programm-tablo table { font-size: 0.88em; }
+@media (max-width: 540px) {
+  .clock-time { font-size: 1.22em;}
+  .clock-date { font-size: 1em;}
+  .gp-header { font-size: 1em;}
+  .programm-tablo table { font-size: 0.85em; }
   .left-side, .right-side { padding: 1vh 0.5vw;}
   .clock-container, .vakitler-container, .programm-tablo { padding: 1vh 1vw;}
 }
