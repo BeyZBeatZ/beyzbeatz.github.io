@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Countdown</title>
+  <title>Ngaparou Süleymaniye</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap');
 
@@ -227,42 +227,42 @@
   </div>
 
   <div class="card">
-    <p class="event-label">Countdown bis zum</p>
-    <h1 class="title" id="eventTitle">Silvester 2026 🎉</h1>
+    <p class="event-label">Geri Sayım</p>
+    <h1 class="title" id="eventTitle">Tekamüle Geçiş 🎉</h1>
 
     <div class="boxes" id="boxes">
       <div class="box" id="box-d">
         <div class="number-wrap"><span class="number visible" id="days">00</span></div>
-        <span class="unit">Tage</span>
+        <span class="unit">Gün</span>
       </div>
       <div class="sep"><span></span><span></span></div>
       <div class="box" id="box-h">
         <div class="number-wrap"><span class="number visible" id="hours">00</span></div>
-        <span class="unit">Stunden</span>
+        <span class="unit">Saat</span>
       </div>
       <div class="sep"><span></span><span></span></div>
       <div class="box" id="box-m">
         <div class="number-wrap"><span class="number visible" id="minutes">00</span></div>
-        <span class="unit">Minuten</span>
+        <span class="unit">Dakika</span>
       </div>
       <div class="sep"><span></span><span></span></div>
       <div class="box" id="box-s">
         <div class="number-wrap"><span class="number visible" id="seconds">00</span></div>
-        <span class="unit">Sekunden</span>
+        <span class="unit">Saniye</span>
       </div>
     </div>
 
-    <div class="finished" id="finished">🎊 Die Zeit ist um! 🎊</div>
+    <div class="finished" id="finished">🎊 İmtihan Vakti Geldi 🎊</div>
 
     <div class="controls">
-      <label for="datePicker">Zieldatum:</label>
+      <label for="datePicker">İmtihan Tarihi:</label>
       <input type="datetime-local" id="datePicker" />
     </div>
   </div>
 
   <script>
     // Default: New Year 2026
-    const defaultTarget = new Date('2026-12-31T00:00:00');
+    const defaultTarget = new Date('2026-07-23T00:00:00');
 
     const picker = document.getElementById('datePicker');
     // format for input
